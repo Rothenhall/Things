@@ -2,17 +2,17 @@
 import { useEffect } from 'react';
 
 const S = 100;
-const PAD = 0.36 * S;
+const PAD = 0.31 * S;
 const SCRIPTS = ['/three.min.js', '/things.umd.js'];
 
 // Knob along one edge, in edge-local coords (x along the edge 0..1, y outward).
 // Each entry is a segment: one point = line, three points = cubic curve.
 const KNOB = [
-  [[0.4, 0]],
-  [[0.4, 0.05], [0.33, 0.05], [0.36, 0.1]],
-  [[0.26, 0.2], [0.34, 0.34], [0.5, 0.34]],
-  [[0.66, 0.34], [0.74, 0.2], [0.64, 0.1]],
-  [[0.67, 0.05], [0.6, 0.05], [0.6, 0]],
+  [[0.34, 0]],
+  [[0.4, 0.0], [0.44, 0.03], [0.41, 0.08]],
+  [[0.37, 0.13], [0.38, 0.29], [0.5, 0.29]],
+  [[0.62, 0.29], [0.63, 0.13], [0.59, 0.08]],
+  [[0.56, 0.03], [0.6, 0], [0.66, 0]],
   [[1, 0]]
 ];
 
@@ -65,7 +65,7 @@ function cluster(cells) {
 const LEFT = cluster([[1, 0], [0, 1], [1, 1], [2, 1], [0, 2], [1, 2], [2, 2], [1, 3]]);
 const RIGHT = cluster([[1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [3, 1], [1, 2]]);
 
-function Cluster({ id, shape, className, preset }) {
+function Cluster({ id, shape, className, src, pos, zoom }) {
   const { w, h, paths } = shape;
   return (
     <div className={'lp-cluster ' + className} style={{ aspectRatio: `${w} / ${h}` }}>
@@ -75,7 +75,7 @@ function Cluster({ id, shape, className, preset }) {
         </clipPath>
       </svg>
       <div className="lp-photo" style={{ clipPath: `url(#${id})` }}>
-        <div className="lp-avatar" data-preset={preset} />
+        <div className="lp-img" style={{ backgroundImage: `url(${src})`, backgroundPosition: pos, backgroundSize: `${zoom}% auto` }} role="img" aria-label="A plush character resting in windswept grass at sunset" />
       </div>
       <svg className="lp-seams" viewBox={`0 0 ${w} ${h}`} aria-hidden="true">
         {paths.map((d, i) => <path key={i} d={d} />)}
@@ -87,8 +87,6 @@ function Cluster({ id, shape, className, preset }) {
 export default function Landing() {
   useEffect(() => {
     let dead = false;
-    let onResize;
-    const handles = [];
     const load = (src) => new Promise((res, rej) => {
       if (document.querySelector(`script[src="${src}"]`)) return res();
       const s = document.createElement('script');
@@ -96,17 +94,9 @@ export default function Landing() {
       document.body.appendChild(s);
     });
     SCRIPTS.reduce((p, src) => p.then(() => load(src)), Promise.resolve()).then(() => {
-      if (dead || !window.Things) return;
-      document.querySelectorAll('.lp-avatar').forEach((el) => {
-        const av = window.Things.mount(el, el.dataset.preset, { distance: 9.6 });
-        av.setState(el.dataset.preset === "plum" ? "waving" : "idle");
-        handles.push(av);
-      });
-      onResize = () => handles.forEach((h) => h.resize && h.resize());
-      window.addEventListener('resize', onResize);
-      requestAnimationFrame(onResize);
+      if (dead) return;
     }).catch(() => {});
-    return () => { dead = true; if (onResize) window.removeEventListener('resize', onResize); handles.forEach((h) => h.destroy && h.destroy()); };
+    return () => { dead = true; };
   }, []);
 
   return (
@@ -117,15 +107,15 @@ export default function Landing() {
       </nav>
 
       <section className="lp-stage">
-        <Cluster id="lp-clip-a" shape={LEFT} className="lp-a" preset="plum" />
+        <Cluster id="lp-clip-a" shape={LEFT} className="lp-a" src="/landing/meadow-1.webp" pos="64% 80%" zoom={200} />
         <h2 className="lp-word lp-w1">Make one</h2>
         <h2 className="lp-word lp-w2">Boop it</h2>
-        <Cluster id="lp-clip-b" shape={RIGHT} className="lp-b" preset="tango" />
+        <Cluster id="lp-clip-b" shape={RIGHT} className="lp-b" src="/landing/meadow-2.webp" pos="56% 74%" zoom={190} />
       </section>
 
       <footer className="lp-foot">
         <p className="lp-script">Things <span className="by">by Rothenhall</span></p>
-        <p className="lp-lede">Build a 3D plush character. Fur, face and outfit, piece by piece.</p>
+        <p className="lp-lede">Build a 3D plush character, then give it a job: a mascot that answers your visitors' questions and makes your site easy for AI to read.</p>
         <a className="lp-cta" href="/studio">Open the studio</a>
       </footer>
     </main>

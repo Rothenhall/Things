@@ -145,13 +145,13 @@ pre{background:var(--rh-night);color:var(--rh-canvas);border-radius:2px;padding:
 .lp-photo{position:absolute;inset:0;background:radial-gradient(70% 60% at 20% 30%,rgba(159,182,196,.55),transparent 70%),linear-gradient(160deg,#0f1b26 0%,#1b2d3b 65%,#33505f 120%)}
 .lp-avatar{position:absolute;inset:0;transform:translateY(-9%)}
 .lp-seams{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.lp-seams path{fill:none;stroke:#fff;stroke-width:2.2;vector-effect:non-scaling-stroke}
+.lp-seams path{fill:none;stroke:#fff;stroke-width:1.2;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .lp-word{position:absolute;margin:0;font:300 clamp(2.4rem,6.4vw,5.2rem)/.95 var(--rh-font-display);text-transform:uppercase;letter-spacing:-.045em;white-space:nowrap}
 .lp-w1{left:calc(3% + var(--wa) - 1.5rem);top:2%}
 .lp-w2{right:calc(3% + var(--wb) + .5rem);top:58%;text-align:right}
 .lp-foot{display:flex;flex-direction:column;align-items:center;gap:.9rem;padding:2rem 1.5rem 3.5rem;text-align:center}
 .lp-script{margin:0;font:500 clamp(2.4rem,5vw,3.4rem)/1 "Caveat",cursive;letter-spacing:.01em;transform:rotate(-3deg)}
-.lp-lede{margin:0;max-width:34ch;color:var(--rh-ink-60);font-size:.98rem}
+.lp-lede{margin:0;max-width:46ch;color:var(--rh-ink-60);font-size:.98rem}
 .lp-cta{display:inline-flex;align-items:center;min-height:48px;padding:0 1.6rem;border-radius:999px;background:var(--rh-ink);color:var(--rh-canvas);text-decoration:none;font:500 .92rem/1 var(--rh-font-sans);letter-spacing:.02em;transition:background .25s var(--rh-ease)}
 .lp-cta:hover{background:var(--rh-brass-deep)}
 @media (max-width:760px){
@@ -198,3 +198,5 @@ pre{background:var(--rh-night);color:var(--rh-canvas);border-radius:2px;padding:
 .lp-brand{display:flex;align-items:baseline;gap:.55rem}
 .lp-script-sm{font:500 1.9rem/1 "Caveat",cursive;transform:rotate(-2deg);display:inline-block}
 .lp-script .by{display:block;margin-top:.5rem;font-size:.85rem;transform:rotate(3deg)}
+
+.lp-img{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat}
