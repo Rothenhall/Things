@@ -186,7 +186,7 @@
   (function () {
     var p = panes.Guide;
     var s1 = el('div', 'sec'); s1.appendChild(el('h3', null, 'Make a character'));
-    s1.appendChild(el('p', 'note', '1. Pick a preset from Characters. 2. Shape it with the Body, Fur, Face and Outfit tabs. 3. Open the Use it tab to save a photo, the character file, or copy code for your own site.'));
+    s1.appendChild(el('p', 'note', '1. Pick a preset from Characters. 2. Shape it with the Body, Fur, Face and Outfit tabs. 3. Open the Use it tab to save a photo, the character file, or copy code for your own site. Embed on your site adds the chat widget and your own analytics dashboard.'));
     p.appendChild(s1);
 
     var s2 = el('div', 'sec'); s2.appendChild(el('h3', null, 'Use it on your site'));
@@ -202,6 +202,7 @@
 
   // ---------------- export pane ----------------
   var codeMode = 'react', codeEl = null;
+  var embed = { chat: true, endpoint: 'http://localhost:8787' }, embedEl = null, cmdEl = null;
   function diffConfig() {
     var c = av.getConfig(), d = {};
     Object.keys(c).forEach(function (k) { if (JSON.stringify(c[k]) !== JSON.stringify(K.defaults[k])) d[k] = c[k]; });
@@ -209,11 +210,12 @@
   }
   function renderCode() {
     if (!codeEl) return;
+    renderEmbed();
     var cfg = JSON.stringify(diffConfig(), null, 2).replace(/\n/g, '\n');
     codeEl.textContent = codeMode === 'react'
-      ? "import { ThingsAvatar } from 'things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
+      ? "import { ThingsAvatar } from '@rothenhall/things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
       : codeMode === 'next'
-        ? "// app/mascot.jsx\n'use client';\nimport { ThingsAvatar } from 'things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
+        ? "// app/mascot.jsx\n'use client';\nimport { ThingsAvatar } from '@rothenhall/things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
         : "<div id=\"mascot\" style=\"width:360px;height:360px\"></div>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\"><\/script>\n<script src=\"things.umd.js\"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById('mascot'), " + cfg.replace(/\n/g, '\n  ') + ");\n  mascot.setState('" + mood + "');\n<\/script>";
   }
   (function () {
@@ -239,7 +241,45 @@
     codeEl = el('pre'); codeEl.tabIndex = 0; s2.appendChild(codeEl);
     var bc = el('button', 'btn', 'Copy code'); bc.type = 'button'; bc.onclick = function () { copy(codeEl.textContent); };
     s2.appendChild(bc); p.appendChild(s2);
+
+    // ---- embed on a live site: script tag + one-line setup, talks to the owner's own collector ----
+    var s3 = el('div', 'sec'); s3.appendChild(el('h3', null, 'Embed on your site'));
+    s3.appendChild(el('p', 'note', 'Put this character in the corner of any website. With chat on, visitors can ask it questions and you see what they ask in your own dashboard. Everything is stored on your machine, not ours.'));
+    var m1 = el('div', 'seg'); m1.setAttribute('role', 'group'); m1.setAttribute('aria-label', 'Mode');
+    [[true, 'Chat + insights'], [false, 'Decoration only']].forEach(function (m) {
+      var b = el('button', null, m[1]); b.type = 'button'; b.dataset.c = String(m[0]); b.setAttribute('aria-pressed', String(m[0] === embed.chat));
+      b.onclick = function () { embed.chat = m[0]; Array.prototype.forEach.call(m1.children, function (x) { x.setAttribute('aria-pressed', String(x.dataset.c === String(embed.chat))); }); renderEmbed(); };
+      m1.appendChild(b);
+    });
+    s3.appendChild(m1);
+    var lab = el('label', 'note'); lab.textContent = 'Address of your collector'; lab.style.display = 'block';
+    var ep = el('input'); ep.type = 'text'; ep.value = embed.endpoint; ep.spellcheck = false; ep.setAttribute('aria-label', 'Collector address');
+    ep.style.cssText = 'width:100%;min-height:44px;padding:0 .9rem;border:1px solid var(--rh-line-strong);border-radius:999px;background:transparent;margin:.3rem 0 .8rem';
+    ep.oninput = function () { embed.endpoint = ep.value.trim(); renderEmbed(); };
+    lab.appendChild(ep); s3.appendChild(lab);
+    s3.appendChild(el('p', 'note', 'Running the collector on your own computer? Leave it as is for testing. For your live site it needs a public https address, see the guide linked below.'));
+    embedEl = el('pre'); embedEl.tabIndex = 0; s3.appendChild(embedEl);
+    var r3 = el('div', 'row');
+    var bt = el('button', 'btn primary', 'Copy script tag'); bt.type = 'button'; bt.onclick = function () { copy(embedEl.textContent); };
+    var bf = el('button', 'btn', 'Save character file'); bf.type = 'button'; bf.onclick = saveJson;
+    r3.style.marginBottom = '1.2rem'; r3.appendChild(bt); r3.appendChild(bf); s3.appendChild(r3);
+    s3.appendChild(el('h3', null, 'Or set it all up with one command'));
+    s3.appendChild(el('p', 'note', 'Save the character file first, then run this in your website project. It copies the widget in, creates your settings and starts you off with a content folder.'));
+    cmdEl = el('pre'); cmdEl.tabIndex = 0; s3.appendChild(cmdEl);
+    var bk = el('button', 'btn', 'Copy command'); bk.type = 'button'; bk.onclick = function () { copy(cmdEl.textContent); };
+    s3.appendChild(bk);
+    s3.appendChild(el('p', 'note', 'Then run: npx @rothenhall/things collector. Open http://localhost:8787/admin to see the dashboard. The full walkthrough is in docs/STUDIO_EXPORT.md in the repository.'));
+    p.appendChild(s3);
   })();
+  function renderEmbed() {
+    if (!embedEl) return;
+    var attrs = [];
+    if (embed.endpoint) attrs.push('data-endpoint="' + embed.endpoint.replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '"');
+    attrs.push("data-config='" + JSON.stringify(diffConfig()).replace(/&/g, '&amp;').replace(/'/g, '&#39;') + "'");
+    if (!embed.chat) attrs.push('data-chat="false"');
+    embedEl.textContent = '<script src="/things/things-chat.js"' + String.fromCharCode(10) + '  ' + attrs.join(String.fromCharCode(10) + '  ') + String.fromCharCode(10) + '  async><' + '/script>' + String.fromCharCode(10, 10) + '<!-- /things/ is created by the command below (npx @rothenhall/things init). -->';
+    cmdEl.textContent = 'npx @rothenhall/things init --config ./' + fileName('json') + (embed.chat ? ' --endpoint ' + (embed.endpoint || 'http://localhost:8787') : ' --no-chat');
+  }
   function copy(text) {
     var done = function () { toast('Copied'); };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();

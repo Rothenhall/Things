@@ -35,6 +35,8 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
   preset rail, toolbar. `GROUPS` selects which `K.schema` keys are shown.
 - **Chat / AEO layer** (separate from the engine; server code is ES modules, `.mjs`):
   - `public/things-chat.js` → embeddable widget (plain script, shadow DOM, `window.ThingsChat`).
+  - `packages/things/` → the npm package `@rothenhall/things` (CLI in `bin/`, React in `src/react.js`). Its `dist/` and `collector/` are copies made by `scripts/sync-package.mjs` (git-ignored; edit the originals in `public/`, `lib/`, `server/`). Run `npm run package:sync` after changing those.
+  - `docs/` → user documentation; `docs/README.md` is the index. Keep `docs/CONFIG_REFERENCE.md` in sync with `.env.example` and `Things.schema`.
   - `lib/router.mjs` → framework-agnostic request router (chat, track, admin, llms.txt, md, schema).
     Used by BOTH `lib/next-adapter.mjs` (Next route handlers in `app/api/[...slug]`, `app/admin`,
     `app/llms*.txt`, `app/robots.txt`, `app/sitemap.xml`, `app/md`) and `server/collector.mjs`

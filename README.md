@@ -16,19 +16,25 @@ Beyond the editor, a Things character can live on **any website** as a chat assi
 3. **Shows which visitors are AI**: crawler hits (GPTBot, ClaudeBot, PerplexityBot and more), the pages they read, the paths they asked for that do not exist, and visits referred from AI answers with bounce rate.
 4. **Makes the site agent-readable**: `llms.txt`, markdown versions of pages for bots, JSON-LD and FAQ markup, `robots.txt`, `sitemap.xml`.
 
-You can load the widget from a deployed Things site and keep all the data on your own PC or server:
+> **Status:** the npm package is ready but not published yet (see [docs/PUBLISHING.md](docs/PUBLISHING.md)). Until it is, run `npm run package:sync` in a clone and `npm install /path/to/things/packages/things` in your project, then use `npx things ...` instead of `npx @rothenhall/things ...`.
 
-```html
-<script src="https://YOUR-THINGS-SITE/things-chat.js"
-        data-endpoint="https://YOUR-COLLECTOR" data-preset="mallow" async></script>
-```
+Set it up in one command, from your own website project:
 
 ```bash
-cp .env.example .env     # set ADMIN_TOKEN and ALLOWED_ORIGINS
-npm run collector        # http://localhost:8787, dashboard at /admin
+npx @rothenhall/things init     # copies the widget, creates settings and a content folder, prints a <script> tag
+npx @rothenhall/things collector  # runs the collector and dashboard on your machine (http://localhost:8787/admin)
 ```
 
-Guides: **[Getting started (full setup)](docs/GETTING_STARTED.md)** · [Self-hosting](docs/SELF_HOSTING.md) · [Embedding with your own collector](docs/EMBEDDING.md) · [What it can and cannot measure](docs/AGENT_READINESS.md).
+or build a character in the studio, open **Use it > Embed on your site**, and copy the tag and one-line command it generates. Choose **Chat + insights** (the character answers visitors and you see what they ask) or **Decoration only** (it just sits there, and you still see AI crawler and AI-referral traffic). For fluent answers add your own OpenAI API key (`LLM_API_KEY`); without one the chat quotes your content.
+
+React and Next.js:
+
+```jsx
+import { ThingsMascot } from '@rothenhall/things/react';
+<ThingsMascot endpoint="https://things.example.com" preset="plum" />
+```
+
+Documentation: **[docs/](docs/README.md)** · [Studio to live site](docs/STUDIO_EXPORT.md) · [Getting started](docs/GETTING_STARTED.md) · [npm package and CLI](docs/NPM_PACKAGE.md) · [Frameworks](docs/FRAMEWORKS.md) · [Deployment](docs/DEPLOYMENT.md) · [Configuration](docs/CONFIG_REFERENCE.md) · [Collector API](docs/COLLECTOR_API.md) · [Privacy](docs/DATA_AND_PRIVACY.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [What it can and cannot measure](docs/AGENT_READINESS.md).
 
 ## Quickstart
 

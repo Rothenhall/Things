@@ -22,9 +22,11 @@
     "build": "next build",
     "start": "next start",
     "collector": "node server/collector.mjs",
-    "check": "node --check public/studio.js && node --check public/things.umd.js && node --check public/things-chat.js && node --check server/collector.mjs && node --check server/import-access-log.mjs",
+    "check": "node --check public/studio.js && node --check public/things.umd.js && node --check public/things-chat.js && node --check server/collector.mjs && node --check server/import-access-log.mjs && node --check packages/things/bin/things.mjs && node --check packages/things/src/index.js && node --check scripts/sync-package.mjs",
     "test": "node --test \"test/*.test.mjs\"",
-    "import-log": "node server/import-access-log.mjs"
+    "import-log": "node server/import-access-log.mjs",
+    "package:sync": "node scripts/sync-package.mjs",
+    "package:pack": "node scripts/sync-package.mjs && npm pack ./packages/things --pack-destination ."
   },
   "dependencies": {
     "next": "^15.5.0",

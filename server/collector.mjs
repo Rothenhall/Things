@@ -5,15 +5,38 @@
 //
 //   npm run collector          -> http://localhost:8787
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { handle } from '../lib/router.mjs';
 import { getConfig } from '../lib/env.mjs';
 import { getContent } from '../lib/content.mjs';
 
-try { process.loadEnvFile('.env'); } catch (e) { /* no .env file, use the real environment */ }
+try { process.loadEnvFile(process.env.THINGS_ENV_FILE || '.env'); } catch (e) { /* no .env file, use the real environment */ }
 
 const PORT = Number(process.env.COLLECTOR_PORT || process.env.PORT || 8787);
 const HOST = process.env.COLLECTOR_HOST || '0.0.0.0';
 const MAX_BODY = 16 * 1024;
+
+// The collector also serves the widget files, so one public address is enough for sites you cannot upload files to:
+//   <script src="https://YOUR-COLLECTOR/things/things-chat.js" data-preset="mallow"></script>
+// Package layout: collector/server -> ../../dist.  Repo layout: server -> ../public.
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const ASSET_DIRS = [path.resolve(HERE, '../../dist'), path.resolve(HERE, '../public')];
+const ASSETS = new Set(['things-chat.js', 'things.umd.js', 'three.min.js']);
+function serveAsset(url, res) {
+  const m = /^\/things\/([a-z0-9.-]+)$/i.exec(url.pathname);
+  if (!m || !ASSETS.has(m[1])) return false;
+  for (const dir of ASSET_DIRS) {
+    const file = path.join(dir, m[1]);
+    if (fs.existsSync(file)) {
+      res.writeHead(200, { 'content-type': 'application/javascript; charset=utf-8', 'cache-control': 'public, max-age=3600', 'x-content-type-options': 'nosniff' });
+      res.end(fs.readFileSync(file));
+      return true;
+    }
+  }
+  return false;
+}
 
 const server = http.createServer((req, res) => {
   const chunks = [];
@@ -26,6 +49,7 @@ const server = http.createServer((req, res) => {
     if (size > MAX_BODY) { res.writeHead(413).end('Payload too large'); return; }
     const host = req.headers.host || `localhost:${PORT}`;
     const url = new URL(req.url, 'http://' + host);
+    if (req.method === 'GET' && serveAsset(url, res)) return;
     const proto = req.headers['x-forwarded-proto'] || 'http';
     const fwd = (req.headers['x-forwarded-for'] || req.headers['cf-connecting-ip'] || '').toString().split(',')[0].trim();
     const out = await handle({

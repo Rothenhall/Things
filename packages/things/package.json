@@ -1,0 +1,28 @@
+{
+  "name": "@rothenhall/things",
+  "version": "1.0.0",
+  "description": "Put a 3D plush character on your website. Optional chat that answers from your content, AI-crawler and AI-referral analytics, and a dashboard that runs on your own machine. One command to set up.",
+  "license": "MIT",
+  "author": "Rothenhall",
+  "type": "module",
+  "homepage": "https://github.com/Rothenhall/things#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/Rothenhall/things.git", "directory": "packages/things" },
+  "bugs": { "url": "https://github.com/Rothenhall/things/issues" },
+  "keywords": ["mascot", "three.js", "chatbot", "aeo", "geo", "llms.txt", "self-hosted", "analytics", "ai-traffic"],
+  "bin": { "things": "bin/things.mjs" },
+  "exports": {
+    ".": "./src/index.js",
+    "./react": "./src/react.js",
+    "./widget": "./dist/things-chat.js",
+    "./engine": "./dist/things.umd.js",
+    "./three": "./dist/three.min.js",
+    "./package.json": "./package.json"
+  },
+  "files": ["bin", "src", "dist", "collector", "templates", "README.md", "LICENSE"],
+  "engines": { "node": ">=20.12" },
+  "dependencies": { "three": "0.128.0" },
+  "peerDependencies": { "react": ">=18" },
+  "peerDependenciesMeta": { "react": { "optional": true } },
+  "publishConfig": { "access": "public" },
+  "scripts": { "sync": "node ../../scripts/sync-package.mjs", "prepack": "node ../../scripts/sync-package.mjs" }
+}

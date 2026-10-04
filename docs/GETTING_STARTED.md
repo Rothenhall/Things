@@ -2,9 +2,24 @@
 
 This is the whole path in one place: pick a character, add it to your website, run the collector so it works for real visitors, and read what it captures. The other guides go deeper on single topics and are linked where they matter.
 
-- [EMBEDDING.md](EMBEDDING.md): widget attributes and tunnels
-- [SELF_HOSTING.md](SELF_HOSTING.md): Docker, content, answer engine, privacy
-- [AGENT_READINESS.md](AGENT_READINESS.md): what the AI-traffic features can and cannot tell you
+- [STUDIO_EXPORT.md](STUDIO_EXPORT.md): the shortest path, from the studio to a live site (start here if you just want it working)
+- [NPM_PACKAGE.md](NPM_PACKAGE.md): the `@rothenhall/things` package, CLI and React components
+- [FRAMEWORKS.md](FRAMEWORKS.md): Next.js, React, WordPress, Shopify, Webflow and more
+- [DEPLOYMENT.md](DEPLOYMENT.md): keep the collector running and reachable
+- [CONFIG_REFERENCE.md](CONFIG_REFERENCE.md), [WIDGET_REFERENCE.md](WIDGET_REFERENCE.md), [COLLECTOR_API.md](COLLECTOR_API.md): every setting and endpoint
+- [DATA_AND_PRIVACY.md](DATA_AND_PRIVACY.md) and [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+- [EMBEDDING.md](EMBEDDING.md), [SELF_HOSTING.md](SELF_HOSTING.md), [AGENT_READINESS.md](AGENT_READINESS.md)
+
+## The fastest way: npm
+
+```bash
+cd your-website-project
+npx @rothenhall/things init --site-url https://your-site.com --endpoint https://things.your-site.com
+npx @rothenhall/things collector
+npx @rothenhall/things doctor
+```
+
+`init` copies the widget into your project, creates your settings with a random dashboard password, makes a starter content folder, and prints the `<script>` tag to paste. `collector` starts the server and dashboard. `doctor` checks everything. The steps below explain each part in detail and also cover running from a clone of the repository instead of the npm package; the two are equivalent (`npm run collector` in a clone is the same server as `things collector`).
 
 ## What you get
 

@@ -12,7 +12,7 @@ import { append } from '../lib/store.mjs';
 import { classifyUA } from '../lib/bots.mjs';
 import { normalizePath } from '../lib/router.mjs';
 
-try { process.loadEnvFile('.env'); } catch (e) { /* no .env */ }
+try { process.loadEnvFile(process.env.THINGS_ENV_FILE || '.env'); } catch (e) { /* no .env */ }
 
 const args = process.argv.slice(2);
 const file = args.find((a) => !a.startsWith('--'));

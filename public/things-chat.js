@@ -2,21 +2,28 @@
  * things-chat.js: a Things plush character that answers visitor questions on any website.
  *
  *   <script src="https://YOUR-THINGS-SITE/things-chat.js"
- *           data-endpoint="https://YOUR-COLLECTOR"   // where chat + analytics go (defaults to this script's origin)
+ *           data-endpoint="https://YOUR-COLLECTOR"   // where chat + analytics go (defaults to the origin this script was loaded from)
  *           data-preset="mallow" async></script>
  *
  * Options (data-* attributes or ThingsChat.init({...})): endpoint, preset, title, greeting, key,
  * position (right|left), color, track (default true), schema (default false), assets, chat (default true; false = decoration only,
- * no chat panel, tracking still runs).
+ * no chat panel, tracking still runs), config (a custom character exported from the studio: a JSON string
+ * in data-config, or an object passed to init as preset).
  * Plain script, no build step. Loads three.js + things.umd.js from the same place as this file if missing.
  * Part of Things, MIT licensed: https://github.com/Rothenhall/things
  */
 (function () {
   'use strict';
-  if (window.ThingsChat) return;
+  if (window.ThingsChat) {
+    // Loaded again (React remount, SPA navigation): start a fresh widget from this tag's attributes.
+    var again = document.currentScript;
+    if (again && !again.hasAttribute('data-manual') && window.ThingsChat.initFromScript) window.ThingsChat.initFromScript(again);
+    return;
+  }
 
   var thisScript = document.currentScript;
   var scriptBase = thisScript && thisScript.src ? new URL('.', thisScript.src).href.replace(/\/$/, '') : '';
+  var scriptOrigin = thisScript && thisScript.src ? new URL(thisScript.src).origin : '';
 
   var AI_REF = /(chatgpt|openai|perplexity|claude\.ai|gemini\.google|bard\.google|copilot\.microsoft|you\.com|phind|meta\.ai|grok|deepseek|chat\.mistral)/i;
   var state = { o: null, host: null, root: null, avatar: null, open: false, busy: false, talkTimer: 0, gen: 0 };
@@ -27,6 +34,7 @@
     ['endpoint', 'preset', 'title', 'greeting', 'key', 'position', 'color', 'assets'].forEach(function (k) { if (d[k]) o[k] = d[k]; });
     if (d.track === 'false') o.track = false;
     if (d.chat === 'false') o.chat = false;
+    if (d.config) { try { var cfg = JSON.parse(d.config); if (cfg && typeof cfg === 'object') o.preset = cfg; } catch (e) { /* bad data-config: fall back to data-preset */ } }
     if (d.schema === 'true') o.schema = true;
     return o;
   }
@@ -254,9 +262,10 @@
     init: function (opts) {
       if (state.host) return ThingsChat;
       var o = Object.assign({
-        endpoint: scriptBase, preset: 'mallow', title: 'Ask me', greeting: 'Hi! Ask me anything about this site.',
+        endpoint: scriptOrigin, preset: 'mallow', title: 'Ask me', greeting: 'Hi! Ask me anything about this site.',
         key: '', position: 'right', color: '#a85c30', track: true, schema: false, chat: true, assets: scriptBase
-      }, readAttrs(thisScript), opts || {});
+      }, readAttrs(opts && opts.__el ? opts.__el : thisScript), opts || {});
+      delete o.__el;
       o.endpoint = String(o.endpoint || '').replace(/\/+$/, '');
       o.assets = String(o.assets || o.endpoint).replace(/\/+$/, '');
       if (opts && opts.endpoint === '') o.endpoint = '';
@@ -265,6 +274,7 @@
       if (document.body) go(); else document.addEventListener('DOMContentLoaded', go);
       return ThingsChat;
     },
+    initFromScript: function (el) { return ThingsChat.init({ __el: el }); },
     open: function () { if (state.toggle) state.toggle(true); },
     close: function () { if (state.toggle) state.toggle(false); },
     destroy: function () {
