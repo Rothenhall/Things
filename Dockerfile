@@ -2,12 +2,12 @@
 # Build:  docker build -t things .
 # Run:    docker run -p 3000:3000 -v things-data:/app/data --env-file .env things
 # The collector (embed mode) runs from the same image:  docker run ... things npm run collector
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -16,7 +16,7 @@ ARG SITE_URL=
 ENV SITE_URL=$SITE_URL NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
-FROM node:22-alpine
+FROM node:26-alpine
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATA_DIR=/app/data
 COPY --from=build /app/package.json /app/package-lock.json ./
