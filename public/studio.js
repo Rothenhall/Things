@@ -1,9 +1,9 @@
 (function () {
   'use strict';
-  var K = window.FuzzKit, $ = function (id) { return document.getElementById(id); };
+  var K = window.Things, $ = function (id) { return document.getElementById(id); };
   if (!K || !window.THREE) { $('avatar').innerHTML = '<p class="err">The 3D engine could not load. Check your connection and reload.</p>'; return; }
 
-  var KEY = 'fuzzkit-studio-v1';
+  var KEY = 'things-v1';
   var store = {
     get: function () { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
     set: function (v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
@@ -190,13 +190,13 @@
     p.appendChild(s1);
 
     var s2 = el('div', 'sec'); s2.appendChild(el('h3', null, 'Use it on your site'));
-    s2.appendChild(el('p', 'note', 'Load three.js r128 first, then the FuzzKit file, then mount any preset or your saved config:'));
+    s2.appendChild(el('p', 'note', 'Load three.js r128 first, then the Things file, then mount any preset or your saved config:'));
     var pre = el('pre'); pre.tabIndex = 0;
-    pre.textContent = '<div id="mascot" style="width:360px;height:360px"></div>\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n<script src="fuzzkit.umd.js"><\/script>\n<script>\n  const mascot = FuzzKit.mount(document.getElementById("mascot"), "willow");\n  mascot.setState("waving");\n<\/script>';
+    pre.textContent = '<div id="mascot" style="width:360px;height:360px"></div>\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n<script src="things.umd.js"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById("mascot"), "willow");\n  mascot.setState("waving");\n<\/script>';
     s2.appendChild(pre); p.appendChild(s2);
 
     var s3 = el('div', 'sec'); s3.appendChild(el('h3', null, 'Open source'));
-    s3.appendChild(el('p', 'note', 'FuzzKit Studio is MIT-licensed (see LICENSE). Fork it, run npm install and npm run dev, and send a pull request.'));
+    s3.appendChild(el('p', 'note', 'Things is MIT-licensed (see LICENSE). Fork it, run npm install and npm run dev, and send a pull request.'));
     p.appendChild(s3);
   })();
 
@@ -211,10 +211,10 @@
     if (!codeEl) return;
     var cfg = JSON.stringify(diffConfig(), null, 2).replace(/\n/g, '\n');
     codeEl.textContent = codeMode === 'react'
-      ? "import { FuzzAvatar } from 'fuzzkit/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <FuzzAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
+      ? "import { ThingsAvatar } from 'things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
       : codeMode === 'next'
-        ? "// app/mascot.jsx\n'use client';\nimport { FuzzAvatar } from 'fuzzkit/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <FuzzAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
-        : "<div id=\"mascot\" style=\"width:360px;height:360px\"></div>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\"><\/script>\n<script src=\"fuzzkit.umd.js\"><\/script>\n<script>\n  const mascot = FuzzKit.mount(document.getElementById('mascot'), " + cfg.replace(/\n/g, '\n  ') + ");\n  mascot.setState('" + mood + "');\n<\/script>";
+        ? "// app/mascot.jsx\n'use client';\nimport { ThingsAvatar } from 'things/react';\n\nconst mascot = " + cfg + ";\n\nexport default function Mascot() {\n  return <ThingsAvatar config={mascot} state=\"" + mood + "\" style={{ width: 360, height: 360 }} />;\n}"
+        : "<div id=\"mascot\" style=\"width:360px;height:360px\"></div>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\"><\/script>\n<script src=\"things.umd.js\"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById('mascot'), " + cfg.replace(/\n/g, '\n  ') + ");\n  mascot.setState('" + mood + "');\n<\/script>";
   }
   (function () {
     var p = panes.Export;
@@ -224,7 +224,7 @@
     var bp = el('button', 'btn primary', 'Save photo'); bp.type = 'button'; bp.onclick = savePhoto;
     var bj = el('button', 'btn', 'Save character file'); bj.type = 'button'; bj.onclick = saveJson;
     var bl = el('label', 'btn'); bl.textContent = 'Open character file'; var fi = el('input'); fi.type = 'file'; fi.accept = '.json,application/json'; fi.hidden = true; bl.appendChild(fi);
-    fi.onchange = function () { var f = fi.files[0]; if (!f) return; f.text().then(function (t) { try { edit(K.normalize(JSON.parse(t))); toast('Character loaded'); } catch (e) { toast('That file is not a FuzzKit character'); } }); fi.value = ''; };
+    fi.onchange = function () { var f = fi.files[0]; if (!f) return; f.text().then(function (t) { try { edit(K.normalize(JSON.parse(t))); toast('Character loaded'); } catch (e) { toast('That file is not a Things character'); } }); fi.value = ''; };
     r.appendChild(bp); r.appendChild(bj); r.appendChild(bl); s1.appendChild(r); p.appendChild(s1);
 
     var s2 = el('div', 'sec'); s2.appendChild(el('h3', null, 'Put it in your app'));
@@ -249,7 +249,7 @@
       toast(ok ? 'Copied' : 'Select the code and copy it');
     }
   }
-  function fileName(ext) { return (av.getConfig().name || 'fuzzbot').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.' + ext; }
+  function fileName(ext) { return (av.getConfig().name || 'plush').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.' + ext; }
   function offer(name, data, onUnavailable) {
     try {
       var blob = data instanceof Blob ? data : new Blob([data], { type: 'application/json' });
@@ -266,7 +266,7 @@
     });
   }
   function saveJson() {
-    var text = JSON.stringify(Object.assign({ fuzzkit: K.version }, av.getConfig()), null, 2);
+    var text = JSON.stringify(Object.assign({ things: K.version }, av.getConfig()), null, 2);
     offer(fileName('json'), text, function () { copy(text); toast('Saving is not available here, so the file was copied instead'); });
   }
   $('photo').onclick = savePhoto;

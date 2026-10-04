@@ -1,13 +1,13 @@
-/*! FuzzKit 1.0 (UMD build). Load three.js first, then use window.FuzzKit. */
+/*! Things 1.0 (UMD build). Load three.js first, then use window.Things. */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory(require('three'));
   else if (typeof define === 'function' && define.amd) define(['three'], factory);
-  else root.FuzzKit = factory(root.THREE);
+  else root.Things = factory(root.THREE);
 }(typeof self !== 'undefined' ? self : this, function (THREE) {
   'use strict';
-/*! FuzzKit 1.0 — realistic, parametric plush avatars for three.js (r128 – r16x).
+/*! Things 1.0 — realistic, parametric plush avatars for three.js (r128 – r16x).
  *
- *  const kit = createFuzzKit(THREE);
+ *  const kit = createThings(THREE);
  *  const avatar = kit.mount(element, 'bruno', { state: 'idle' });
  *  avatar.setConfig({ color: '#7FA7E8', hat: 'beanie' });
  *  avatar.setState('waving');      // idle | thinking | talking | excited | sleepy | waving
@@ -16,8 +16,8 @@
  *
  *  Everything is described by kit.schema, so editors can be generated from it.
  */
-function createFuzzKit(THREE) {
-  if (!THREE || !THREE.WebGLRenderer) throw new Error('FuzzKit: pass the three.js module, e.g. createFuzzKit(THREE)');
+function createThings(THREE) {
+  if (!THREE || !THREE.WebGLRenderer) throw new Error('Things: pass the three.js module, e.g. createThings(THREE)');
   const V3 = THREE.Vector3, V4 = THREE.Vector4, PI = Math.PI;
 
   // ------------------------------------------------------------------ utils
@@ -132,7 +132,7 @@ function createFuzzKit(THREE) {
   };
 
   const DEFAULTS = {
-    name: 'Fuzzbot', seed: 7,
+    name: 'Plush', seed: 7,
     shape: 'round', ears: 'none', arms: 'none', feet: 'none', tail: 'none', muzzle: 'none',
     color: '#FF8A6B', accent: '#FFE3D6', feetColor: null, pattern: 'none', patternColor: '#5E4334', patternScale: 1, tummy: false, tailTip: false,
     fabric: 'minky', furLength: 0.35, furDensity: 1.0, furThickness: 0.6, furDroop: 0.45, furFlex: 0.5, furVariation: 0.1, sheen: 0.75, furTip: null,
@@ -1472,7 +1472,7 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
 
   // ------------------------------------------------------------------ widget
   function mount(el, config, opts) {
-    if (!el) throw new Error('FuzzKit.mount: element is required');
+    if (!el) throw new Error('Things.mount: element is required');
     opts = Object.assign({ state: 'idle', quality: 'high', interactive: true, autoLook: true, distance: 7.4 }, opts || {});
     const quality = QUALITY[opts.quality] || QUALITY.high;
     const reduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1612,8 +1612,8 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
   };
 }
 
-  var kit = createFuzzKit(THREE);
-  kit.createFuzzKit = createFuzzKit;
+  var kit = createThings(THREE);
+  kit.createThings = createThings;
   return kit;
 }));
 
