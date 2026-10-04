@@ -1,0 +1,52 @@
+name: Bug report
+description: Something is broken in the studio, the widget, the collector or the dashboard
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. For security problems do not open an issue; use the private report link in SECURITY.md.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Studio / editor
+        - 3D engine (things.umd.js)
+        - Chat widget (things-chat.js)
+        - Collector / API
+        - Admin dashboard
+        - AI-crawler detection or markdown / llms.txt
+        - Docker / self-hosting
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ...\n2. ..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: "v1.0.0 or abc1234"
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Node version, OS, browser, Docker or not. Never paste your .env or tokens.
+      placeholder: "Node 22, Ubuntu 24.04, Chrome 130, docker compose"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or console output
+      render: shell

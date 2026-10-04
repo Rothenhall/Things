@@ -1,6 +1,11 @@
 import './globals.css';
 
+function siteBase() {
+  try { return process.env.SITE_URL ? new URL(process.env.SITE_URL) : undefined; } catch (e) { return undefined; }
+}
+
 export const metadata = {
+  metadataBase: siteBase(),
   title: 'Things by Rothenhall',
   description: 'Build a 3D plush character. Change the fur, face and outfit, then boop it. Open source.'
 };

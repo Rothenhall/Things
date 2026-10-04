@@ -199,4 +199,14 @@ pre{background:var(--rh-night);color:var(--rh-canvas);border-radius:2px;padding:
 .lp-script-sm{font:500 1.9rem/1 "Caveat",cursive;transform:rotate(-2deg);display:inline-block}
 .lp-script .by{display:block;margin-top:.5rem;font-size:.85rem;transform:rotate(3deg)}
 
+/* Content pages (content/*.md rendered by app/[...slug]) */
+.doc{max-width:42rem;margin:0 auto;padding:2.5rem 1.25rem 5rem;height:auto}
+.doc nav{font:500 .8rem/1 var(--rh-font-sans);text-transform:uppercase;letter-spacing:.16em;color:var(--rh-ink-60);margin-bottom:2rem}
+.doc nav a{color:inherit}
+.doc h1,.doc h2,.doc h3{font-family:var(--rh-font-display);font-weight:400;line-height:1.15;letter-spacing:-.01em}
+.doc h1{font-size:2.4rem;margin:0 0 1rem}.doc h2{font-size:1.5rem;margin:2.2rem 0 .5rem}
+.doc a{color:var(--rh-cognac-deep)}
+.doc code{background:var(--rh-canvas-2);padding:.05em .35em;border-radius:4px;font-size:.9em}
+.doc pre{background:var(--rh-night);color:#f1ece0;padding:1rem;border-radius:10px;overflow:auto}.doc pre code{background:none;padding:0}
+.doc blockquote{margin:1rem 0;padding-left:1rem;border-left:3px solid var(--rh-line-strong);color:var(--rh-ink-60)}
 .lp-img{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat}

@@ -69,6 +69,12 @@ The engine needs global `THREE` (r128) loaded first, then the UMD file:
 | `Things.randomize(seed?)` | Random character config (same generator as "Surprise me"). |
 | `Things.presets` / `.defaults` / `.schema` / `.options` / `.states` | Data to generate your own editor UI from (`schema` drives the studio's controls). |
 
+## 5b. Chat assistant, content gaps and AI-traffic analytics
+
+The studio's characters can answer questions on any website. See
+[docs/EMBEDDING.md](docs/EMBEDDING.md) for the one-line embed, [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md)
+for running it yourself, and [docs/AGENT_READINESS.md](docs/AGENT_READINESS.md) for exactly what is measured.
+
 ## 6. Publishing the library to npm
 
 The library is currently one file, `public/things.umd.js` (UMD, expects global

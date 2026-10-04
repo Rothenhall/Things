@@ -1,0 +1,37 @@
+# docker compose up -d
+#   web:       the full app on http://localhost:3000 (studio, landing, chat, admin)
+#   collector: only the data side, on http://localhost:8787, for embedding the widget on other sites
+#              (docker compose --profile collector up -d collector)
+# Put secrets in .env (copy .env.example). Your content lives in ./content and is mounted read-only.
+services:
+  web:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-}
+    image: things
+    restart: unless-stopped
+    ports: ["3000:3000"]
+    env_file: [.env]
+    environment:
+      DATA_DIR: /app/data
+    volumes:
+      - things-data:/app/data
+      - ./content:/app/content:ro
+
+  collector:
+    profiles: ["collector"]
+    image: things
+    restart: unless-stopped
+    command: ["npm", "run", "collector"]
+    ports: ["8787:8787"]
+    env_file: [.env]
+    environment:
+      DATA_DIR: /app/data
+    volumes:
+      - collector-data:/app/data
+      - ./content:/app/content:ro
+
+volumes:
+  things-data:
+  collector-data:

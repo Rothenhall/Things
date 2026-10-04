@@ -11,7 +11,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
 - Dev server: `npm run dev` → http://localhost:3000
 - Production: `npm run build`, then `npm start`
 - Syntax-check a script edit: `node --check public/studio.js`, `node --check public/things.umd.js`
-- No tests, no linter, no formatter configured.
+- `npm run check` (syntax), `npm test` (lib + router tests), `npm run collector` (standalone data server). No linter or formatter.
 
 ## Repo map
 
@@ -33,6 +33,20 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
 - `public/studio.js` → editor wiring (~290 lines): history (undo/redo, cap 80),
   schema-driven controls, tab `GROUPS`, Motion pane, Export pane (`renderCode`),
   preset rail, toolbar. `GROUPS` selects which `K.schema` keys are shown.
+- **Chat / AEO layer** (separate from the engine; server code is ES modules, `.mjs`):
+  - `public/things-chat.js` → embeddable widget (plain script, shadow DOM, `window.ThingsChat`).
+  - `lib/router.mjs` → framework-agnostic request router (chat, track, admin, llms.txt, md, schema).
+    Used by BOTH `lib/next-adapter.mjs` (Next route handlers in `app/api/[...slug]`, `app/admin`,
+    `app/llms*.txt`, `app/robots.txt`, `app/sitemap.xml`, `app/md`) and `server/collector.mjs`
+    (zero-dependency standalone server). Add routes in the router, not in two places.
+  - `lib/content.mjs` (markdown/sitemap → chunks → BM25), `lib/answer.mjs` (extractive or LLM),
+    `lib/bots.mjs` (UA/referrer lists; **Edge-safe, no Node imports**, used by `middleware.js`),
+    `lib/seo.mjs`, `lib/dashboard.mjs`, `lib/store.mjs` (JSONL in `DATA_DIR`), `lib/env.mjs` (all env vars).
+  - `content/*.md` → site content; `app/[...slug]/page.js` renders them as HTML twins.
+  - `middleware.js` → logs AI-crawler hits and rewrites bots to `/md/...`. Route handlers behind a
+    rewrite see the ORIGINAL url, so the md route passes its path explicitly.
+  - Tests: `npm test` (node:test, `test/`). New env vars go in `.env.example` and `docs/SELF_HOSTING.md`.
+  - Product rule: stays free to self-host. No telemetry, no required paid service, no license checks.
 - `HOW_TO_USE.md` → user docs + library API + npm-publish guide.
 - `README.md` → public front page (repo: https://github.com/Rothenhall/things).
   `LICENSE` → MIT © Rothenhall.

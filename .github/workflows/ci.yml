@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The required status check (see .github/rulesets/main.json). Keep this job name stable.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+
+  # Oldest supported Node version (package.json "engines").
+  node20:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.12
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t things:ci .
+      - name: Smoke test the image
+        run: |
+          docker run -d --name things -p 3000:3000 -e ADMIN_TOKEN=ci-token things:ci
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:3000/api/health && exit 0; sleep 2; done
+          docker logs things
+          exit 1

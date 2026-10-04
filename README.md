@@ -4,8 +4,31 @@ By Rothenhall.
 
 Build a 3D plush character, change the fur, face and outfit, then boop it.
 
-Open source, MIT licensed, by [Rothenhall Partners](https://rothenhall.com).
-Full usage and library docs: [HOW_TO_USE.md](HOW_TO_USE.md).
+Open source, MIT licensed, free to self-host, by [Rothenhall Partners](https://rothenhall.com).
+No account, no paid tier, no telemetry. Full usage and library docs: [HOW_TO_USE.md](HOW_TO_USE.md).
+
+## Put a character on your site
+
+Beyond the editor, a Things character can live on **any website** as a chat assistant:
+
+1. **Answers visitor questions** from your site's content (markdown files or a crawl of your sitemap), in the character's speech bubble. Works with no AI key by quoting your content; plug in OpenAI-compatible, Ollama or Anthropic for fluent answers.
+2. **Logs every question it cannot answer** as a content-gap list, plus a prompt list to test in ChatGPT and Perplexity.
+3. **Shows which visitors are AI**: crawler hits (GPTBot, ClaudeBot, PerplexityBot and more), the pages they read, the paths they asked for that do not exist, and visits referred from AI answers with bounce rate.
+4. **Makes the site agent-readable**: `llms.txt`, markdown versions of pages for bots, JSON-LD and FAQ markup, `robots.txt`, `sitemap.xml`.
+
+You can load the widget from a deployed Things site and keep all the data on your own PC or server:
+
+```html
+<script src="https://YOUR-THINGS-SITE/things-chat.js"
+        data-endpoint="https://YOUR-COLLECTOR" data-preset="mallow" async></script>
+```
+
+```bash
+cp .env.example .env     # set ADMIN_TOKEN and ALLOWED_ORIGINS
+npm run collector        # http://localhost:8787, dashboard at /admin
+```
+
+Guides: **[Getting started (full setup)](docs/GETTING_STARTED.md)** · [Self-hosting](docs/SELF_HOSTING.md) · [Embedding with your own collector](docs/EMBEDDING.md) · [What it can and cannot measure](docs/AGENT_READINESS.md).
 
 ## Quickstart
 
@@ -17,6 +40,7 @@ npm run dev
 ```
 
 Open http://localhost:3000. Production: `npm run build`, then `npm start`.
+Or with Docker: `cp .env.example .env && docker compose up -d --build`.
 
 ## Tour
 
@@ -34,6 +58,12 @@ Drag the avatar to rotate it, click it to boop it. Undo/redo with Ctrl+Z / Ctrl+
 - `public/three.min.js`, pinned three.js r128 (must load first).
 - `public/things.umd.js`, the 3D engine, exposes `window.Things` (`mount`, `setConfig`, presets, schema-driven config).
 - `public/studio.js`, editor wiring: history, controls, tabs, export.
+- `public/things-chat.js`, the embeddable chat widget (plain script).
+- `lib/`, server logic shared by Next.js and the collector: content search, answers, bot detection, dashboard, router.
+- `server/`, the standalone collector and the access-log importer.
+- `content/`, markdown the chat answers from, and the pages crawlers get as markdown.
+- `middleware.js`, AI-crawler logging and markdown responses.
+- `docs/`, self-hosting, embedding, agent-readiness and GitHub setup guides.
 
 The `public/*.js` files are plain scripts loaded via `<script>` tags, not bundled
 modules, edit them in place and check with `node --check public/studio.js`.
@@ -51,10 +81,11 @@ modules, edit them in place and check with `node --check public/studio.js`.
 
 ## Contributing
 
-Fork it, `npm install`, `npm run dev`, keep edits small and in the existing
-vanilla-JS style. See [AGENTS.md](AGENTS.md) for repo conventions and gotchas
-before changing the engine or editor.
+Fork it, `npm ci`, `npm run dev`. Before a pull request run `npm run check`, `npm test` and `npm run build`.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) first; keep edits small and in the existing
+vanilla-JS style. Be kind: [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: [SECURITY.md](SECURITY.md).
+Questions: open a [discussion](https://github.com/Rothenhall/things/discussions).
 
 ## License
 
-MIT © Rothenhall.
+MIT © Rothenhall. See [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

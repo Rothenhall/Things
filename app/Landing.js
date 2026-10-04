@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 const S = 100;
 const PAD = 0.31 * S;
-const SCRIPTS = ['/three.min.js', '/things.umd.js'];
+const SCRIPTS = ['/three.min.js', '/things.umd.js', '/things-chat.js'];
 
 // Knob along one edge, in edge-local coords (x along the edge 0..1, y outward).
 // Each entry is a segment: one point = line, three points = cubic curve.
@@ -95,8 +95,9 @@ export default function Landing() {
     });
     SCRIPTS.reduce((p, src) => p.then(() => load(src)), Promise.resolve()).then(() => {
       if (dead) return;
+      if (window.ThingsChat) window.ThingsChat.init({ endpoint: '', title: 'Ask Things', greeting: 'Hi! Ask me about Things.' });
     }).catch(() => {});
-    return () => { dead = true; };
+    return () => { dead = true; if (window.ThingsChat) window.ThingsChat.destroy(); };
   }, []);
 
   return (
