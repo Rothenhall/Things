@@ -15,7 +15,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
 
 ## Repo map
 
-- `app/page.js` → renders `Studio`.
+- `app/page.js` → landing (`app/Landing.js`: live jigsaw-clipped plush clusters). `app/studio/page.js` → renders `Studio` at `/studio`.
 - `app/Studio.js` → loads `SCRIPTS = ['/three.min.js', '/things.umd.js', '/studio.js']`
   in order via injected `<script>` tags, then mounts `markup` HTML. Guarded by
   `window.__thingsStarted` (StrictMode-style double-mount protection is manual).
@@ -61,7 +61,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
 - **Export snippets:** `renderCode()` in `public/studio.js` generates React/Next
   snippets importing `'things/react'`, which is **not a published package** —
   aspirational until the library is published (see `HOW_TO_USE.md` §6).
-- **Presets:** 12 entries via `fab()` in `things.umd.js` (~lines 151–164), built
+- **Presets:** 9 entries via `fab()` in `things.umd.js` (search `PRESETS`), built
   on `FABRICS` + overrides. `mountAvatar(saved.config || 'willow')` is the
   default character.
 - Keep edits minimal and local: no new deps, no TS migration, no refactors

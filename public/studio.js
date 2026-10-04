@@ -17,7 +17,7 @@
     av = K.mount($('avatar'), cfg, { quality: quality, state: mood, preserveDrawingBuffer: true });
     av.on('poke', function () { $('avatar').dataset.booped = '1'; });
   }
-  mountAvatar(saved.config || 'willow');
+  mountAvatar(saved.config || 'mallow');
 
   // ---------------- history ----------------
   var hist = [av.getConfig()], hi = 0;
@@ -192,7 +192,7 @@
     var s2 = el('div', 'sec'); s2.appendChild(el('h3', null, 'Use it on your site'));
     s2.appendChild(el('p', 'note', 'Load three.js r128 first, then the Things file, then mount any preset or your saved config:'));
     var pre = el('pre'); pre.tabIndex = 0;
-    pre.textContent = '<div id="mascot" style="width:360px;height:360px"></div>\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n<script src="things.umd.js"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById("mascot"), "willow");\n  mascot.setState("waving");\n<\/script>';
+    pre.textContent = '<div id="mascot" style="width:360px;height:360px"></div>\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n<script src="things.umd.js"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById("mascot"), "mallow");\n  mascot.setState("waving");\n<\/script>';
     s2.appendChild(pre); p.appendChild(s2);
 
     var s3 = el('div', 'sec'); s3.appendChild(el('h3', null, 'Open source'));

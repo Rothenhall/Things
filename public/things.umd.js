@@ -58,6 +58,13 @@ function createThings(THREE) {
       const t = smooth(-0.72, -1, dy);
       return [0.98 * (1 - t) + 0.02, -0.95 + sc + 0.3 * t];
     }, sz: 0.94 },
+    blob:    { label: 'Blob',    lathe: (dy, r, phi) => [r * 1.16 * (1 + 0.07 * Math.cos(3 * phi + 0.6) * (1 - dy * dy)) * (1 - 0.1 * smooth(0.2, 1, dy)), flatBottom(dy, 0.86, 0.55)], sz: 0.92, bottomSeam: -0.86 },
+    drop:    { label: 'Drop',    lathe: (dy, r) => [r * (0.16 + 1.0 * smooth(1.0, -0.5, dy)), flatBottom(dy, 1.34, 0.74)], sz: 0.94, bottomSeam: -0.86 },
+    heart:   { label: 'Heart',   fn: (d, out) => {
+      const x = d.x * 1.18 * (0.46 + 0.54 * smooth(-1, 0.3, d.y)) * (1 + 0.14 * smooth(0, 0.6, d.y));
+      const y = d.y * 0.98 - 0.3 * smooth(0.05, 0.95, d.y) * Math.exp(-d.x * d.x * 9);
+      return out.set(x, y, d.z * 0.82);
+    }, seamZ: 0 },
     pillow:  { label: 'Pillow', fn: (d, out) => {
       const n = 3.2, s = Math.pow(Math.pow(Math.abs(d.x), n) + Math.pow(Math.abs(d.y), n) + Math.pow(Math.abs(d.z), n), 1 / n);
       return out.set(d.x / s * 1.1, d.y / s * 0.9, d.z / s * 0.6);
@@ -95,9 +102,9 @@ function createThings(THREE) {
   const FABRICS = {
     velvet: { label: 'Velvet', furLength: 0.12, furDensity: 1.3,  furThickness: 0.7,  furDroop: 0.2,  furFlex: 0.25, furVariation: 0.08, sheen: 1.0 },
     minky:  { label: 'Minky',  furLength: 0.35, furDensity: 1.0,  furThickness: 0.6,  furDroop: 0.45, furFlex: 0.5,  furVariation: 0.1,  sheen: 0.75 },
-    fleece: { label: 'Fleece', furLength: 0.6,  furDensity: 0.75, furThickness: 0.7,  furDroop: 0.55, furFlex: 0.6,  furVariation: 0.14, sheen: 0.45 },
-    mohair: { label: 'Mohair', furLength: 0.72, furDensity: 1.25, furThickness: 0.4,  furDroop: 0.5,  furFlex: 0.72, furVariation: 0.22, sheen: 0.7 },
-    shaggy: { label: 'Shaggy', furLength: 1.0,  furDensity: 0.8,  furThickness: 0.5,  furDroop: 0.8,  furFlex: 0.85, furVariation: 0.18, sheen: 0.4 },
+    fleece: { label: 'Fleece', furLength: 0.55, furDensity: 0.95, furThickness: 0.85, furDroop: 0.5,  furFlex: 0.6,  furVariation: 0.14, sheen: 0.45 },
+    mohair: { label: 'Mohair', furLength: 0.7,  furDensity: 1.4,  furThickness: 0.75, furDroop: 0.45, furFlex: 0.72, furVariation: 0.22, sheen: 0.7 },
+    shaggy: { label: 'Shaggy', furLength: 0.95, furDensity: 1.1,  furThickness: 0.8,  furDroop: 0.7,  furFlex: 0.85, furVariation: 0.18, sheen: 0.4 },
     felt:   { label: 'Felt',   furLength: 0,    furDensity: 1.7,  furThickness: 0.5,  furDroop: 0,    furFlex: 0.1,  furVariation: 0.05, sheen: 0.15 }
   };
   const FUR_KEYS = ['furLength', 'furDensity', 'furThickness', 'furDroop', 'furFlex', 'furVariation', 'sheen'];
@@ -111,13 +118,13 @@ function createThings(THREE) {
     muzzle: [{ id: 'none', label: 'None' }, { id: 'snout', label: 'Snout' }],
     pattern: [{ id: 'none', label: 'Plain' }, { id: 'spots', label: 'Spots' }, { id: 'stripes', label: 'Tabby' }, { id: 'patches', label: 'Patches' }],
     fabric: Object.keys(FABRICS).map(k => ({ id: k, label: FABRICS[k].label })),
-    eyes: [{ id: 'safety', label: 'Safety eyes' }, { id: 'oval', label: 'Oval' }, { id: 'stitched', label: 'Stitched' }, { id: 'happy', label: 'Happy' }],
+    eyes: [{ id: 'safety', label: 'Safety eyes' }, { id: 'oval', label: 'Oval' }, { id: 'stitched', label: 'Stitched' }, { id: 'happy', label: 'Happy' }, { id: 'googly', label: 'Googly' }],
     nose: [{ id: 'none', label: 'None' }, { id: 'button', label: 'Molded' }, { id: 'stitched', label: 'Stitched' }, { id: 'felt', label: 'Felt' }, { id: 'beak', label: 'Beak' }],
     mouth: [{ id: 'smile', label: 'Smile' }, { id: 'grin', label: 'Grin' }, { id: 'cat', label: 'Cat' }, { id: 'flat', label: 'Flat' }, { id: 'open', label: 'Open' }, { id: 'none', label: 'None' }],
     cheeks: [{ id: 'blush', label: 'Blush' }, { id: 'dots', label: 'Dots' }, { id: 'none', label: 'None' }],
-    hat: [{ id: 'none', label: 'None' }, { id: 'beanie', label: 'Knit beanie' }, { id: 'party', label: 'Party hat' }, { id: 'crown', label: 'Crown' }, { id: 'chef', label: 'Chef hat' }, { id: 'propeller', label: 'Propeller' }, { id: 'antenna', label: 'Antenna' }],
+    hat: [{ id: 'none', label: 'None' }, { id: 'beanie', label: 'Knit beanie' }, { id: 'party', label: 'Party hat' }, { id: 'crown', label: 'Crown' }, { id: 'chef', label: 'Chef hat' }, { id: 'propeller', label: 'Propeller' }, { id: 'antenna', label: 'Antenna' }, { id: 'beret', label: 'Beret' }],
     neck: [{ id: 'none', label: 'None' }, { id: 'scarf', label: 'Knit scarf' }, { id: 'bowtie', label: 'Bow tie' }, { id: 'bell', label: 'Bell collar' }],
-    glasses: [{ id: 'none', label: 'None' }, { id: 'round', label: 'Round' }],
+    glasses: [{ id: 'none', label: 'None' }, { id: 'round', label: 'Round' }, { id: 'sunglasses', label: 'Sunglasses' }],
     deco: [{ id: 'none', label: 'None' }, { id: 'hairbow', label: 'Hair bow' }, { id: 'flower', label: 'Flower' }],
     hair: [{ id: 'none', label: 'None' }].concat(Object.keys(HAIR).map(k => ({ id: k, label: HAIR[k].label })))
   };
@@ -144,23 +151,22 @@ function createThings(THREE) {
     hair: 'none', hairColor: '#5E4334', hairLength: 1, hairVolume: 0.5, hairFlex: 0.55, hairSilk: 0.6
   };
 
-  const OUTFIT_COLORS = { beanie: '#D9483B', party: '#7B5CFF', crown: '#E2B33C', chef: '#FAFAF7', propeller: '#FFD23F', antenna: '#FFD54A',
+  const OUTFIT_COLORS = { beanie: '#D9483B', party: '#7B5CFF', crown: '#E2B33C', chef: '#FAFAF7', propeller: '#FFD23F', antenna: '#FFD54A', beret: '#1E1E24',
     scarf: '#2F6F5E', bowtie: '#C8283D', bell: '#C8283D', hairbow: '#FF7EB6', flower: '#FFFFFF' };
 
   function fab(id, extra) { const f = FABRICS[id], o = { fabric: id }; FUR_KEYS.forEach(k => { o[k] = f[k]; }); return Object.assign(o, extra); }
+  const DOT = { arms: 'none', feet: 'none', ears: 'none', tail: 'none', muzzle: 'none', nose: 'none', mouth: 'none', cheeks: 'none', tummy: false, eyeSize: 1.15 };
+  const P = (fabric, o) => fab(fabric, Object.assign({}, DOT, o));
   const PRESETS = [
-    fab('fleece', { id: 'bruno', name: 'Bruno', shape: 'round', ears: 'round', arms: 'nub', feet: 'paw', tail: 'pom', muzzle: 'snout', color: '#9A6A4B', accent: '#E8C9A8', tummy: true, nose: 'button', noseColor: '#241514', furTip: '#B88663', cheeks: 'none', hat: 'beanie', hatColor: '#C9473A', seed: 3 }),
-    fab('minky', { id: 'clover', name: 'Clover', shape: 'egg', ears: 'long', feet: 'paw', tail: 'pom', color: '#F3E6DA', accent: '#F6B8C8', nose: 'stitched', noseColor: '#E5687F', mouth: 'cat', deco: 'flower', eyeColor: '#3A2614', seed: 11 }),
-    fab('minky', { id: 'miso', name: 'Miso', shape: 'wide', ears: 'pointy', arms: 'nub', feet: 'nub', tail: 'curl', color: '#A7ADBB', accent: '#F6C1CC', pattern: 'stripes', patternColor: '#6C7386', nose: 'stitched', noseColor: '#F08AA0', mouth: 'cat', eyeColor: '#4A7A3A', neck: 'bell', seed: 21 }),
-    fab('fleece', { id: 'fern', name: 'Fern', shape: 'egg', ears: 'pointy', feet: 'nub', tail: 'brush', tailTip: true, muzzle: 'snout', color: '#E46F3B', accent: '#FFF6EC', feetColor: '#3B2A22', tummy: true, nose: 'button', noseColor: '#1E1716', eyeColor: '#3A2614', cheeks: 'none', neck: 'scarf', neckColor: '#2F6F5E', seed: 5 }),
-    fab('velvet', { id: 'pip', name: 'Pip', shape: 'egg', arms: 'nub', feet: 'nub', color: '#2E3440', accent: '#F7F7F2', feetColor: '#F2A33A', tummy: true, nose: 'beak', noseColor: '#F2A33A', mouth: 'none', cheeks: 'blush', cheekColor: '#F28C8C', neck: 'scarf', neckColor: '#D9483B', seed: 9 }),
-    fab('mohair', { id: 'biscuit', name: 'Biscuit', shape: 'wide', ears: 'floppy', arms: 'nub', feet: 'paw', tail: 'pom', muzzle: 'snout', color: '#E8D3B9', accent: '#FFF8EF', pattern: 'patches', patternColor: '#9A6A4B', nose: 'button', noseColor: '#2A1716', cheeks: 'none', neck: 'bowtie', neckColor: '#2F4A8A', glasses: 'round', seed: 14 }),
-    fab('shaggy', { id: 'soot', name: 'Soot', shape: 'round', feet: 'nub', color: '#34363E', accent: '#C9CCD6', furTip: '#6E7382', eyeSize: 1.3, mouth: 'flat', cheeks: 'none', hat: 'chef', seed: 2 }),
-    fab('velvet', { id: 'boo', name: 'Boo', shape: 'ghost', color: '#F4F4F6', accent: '#DDE2EC', eyes: 'oval', mouth: 'open', hat: 'party', seed: 4 }),
-    fab('velvet', { id: 'mochi', name: 'Mochi', shape: 'mochi', color: '#F1E3CB', accent: '#FFFFFF', eyes: 'stitched', cheeks: 'dots', cheekColor: '#F28C8C', neck: 'bowtie', seed: 8 }),
-    fab('minky', { id: 'zip', name: 'Zip', shape: 'round', arms: 'nub', feet: 'nub', color: '#FF8A6B', accent: '#FFD9CF', hat: 'propeller', seed: 6 }),
-    fab('felt', { id: 'puff', name: 'Puff', shape: 'pillow', color: '#8FD3B6', accent: '#FFFFFF', tummy: true, eyes: 'happy', cheeks: 'dots', glasses: 'round', glassesColor: '#2B2F38', seed: 12 }),
-    fab('velvet', { id: 'willow', name: 'Willow', shape: 'egg', arms: 'nub', feet: 'nub', color: '#F1D3B8', accent: '#FFF1E4', tummy: true, eyeColor: '#3A2614', cheeks: 'blush', mouth: 'smile', hair: 'none', hairColor: '#3B2A22', hairLength: 1, hairVolume: 0.55, hairFlex: 0.6, hairSilk: 0.7, neck: 'bowtie', neckColor: '#2F6F5E', seed: 15 })
+    P('velvet', { id: 'mallow', name: 'Mallow', shape: 'mochi', color: '#FF7A59', accent: '#FF7A59', eyes: 'happy', cheeks: 'blush', cheekColor: '#FFC2A8', hat: 'chef', hatColor: '#FAFAF7', seed: 41 }),
+    P('minky',  { id: 'plum', name: 'Plum', shape: 'gumdrop', color: '#7B4DFF', accent: '#7B4DFF', eyes: 'oval', glasses: 'sunglasses', glassesColor: '#F7F3EA', hat: 'beanie', hatColor: '#FF9F1C', seed: 42 }),
+    P('velvet', { id: 'mint', name: 'Mint', shape: 'ghost', color: '#5FE0C1', accent: '#5FE0C1', eyes: 'googly', eyeSpacing: 0.26, eyeHeight: 0.18, deco: 'flower', decoColor: '#FFFFFF', seed: 43 }),
+    P('velvet', { id: 'tango', name: 'Tango', shape: 'heart', color: '#FF8A1F', accent: '#FF8A1F', eyes: 'happy', eyeSpacing: 0.28, eyeHeight: 0.04, hat: 'crown', hatColor: '#FFD23F', seed: 44 }),
+    P('velvet', { id: 'pebble', name: 'Pebble', shape: 'blob', color: '#FFC7D9', accent: '#FFC7D9', eyes: 'stitched', eyeColor: '#2B2F38', hat: 'propeller', hatColor: '#3D7BFF', seed: 45 }),
+    P('velvet', { id: 'cosmo', name: 'Cosmo', shape: 'drop', color: '#1FB5A8', accent: '#1FB5A8', eyes: 'googly', eyeSpacing: 0.24, eyeHeight: 0.0, eyeSize: 1.2, hat: 'antenna', hatColor: '#FFD54A', seed: 46 }),
+    P('minky',  { id: 'poppy', name: 'Poppy', shape: 'round', color: '#FF3D4F', accent: '#FF3D4F', eyes: 'oval', cheeks: 'dots', cheekColor: '#FF9AA5', hat: 'party', hatColor: '#FFD23F', seed: 47 }),
+    P('minky',  { id: 'dew', name: 'Dew', shape: 'pillow', color: '#7FD4FF', accent: '#7FD4FF', eyes: 'happy', glasses: 'round', glassesColor: '#2B2F38', neck: 'scarf', neckColor: '#FFFFFF', seed: 48 }),
+    P('felt',   { id: 'truffle', name: 'Truffle', shape: 'wide', color: '#8B5A3C', accent: '#8B5A3C', eyes: 'oval', hat: 'beret', hatColor: '#F7F3EA', neck: 'bell', seed: 49 })
   ];
 
   const STATES = {
@@ -328,14 +334,19 @@ varying vec3 vN; varying vec3 vView; varying vec3 vObj; varying vec3 vT;
 varying float vSeam; varying float vLayer; varying float vAO; varying float vLen; varying float vWy;
 ${COMMON}
 void main(){
-  float L = vLayer; float rnd = 0.5; float rnd2 = 0.5;
+  float L = vLayer; float rnd = 0.5; float rnd2 = 0.5; float crn = 0.5;
   if (L > 0.001) {
     vec3 g = vObj * (230.0 * uDensity / (1.0 + uLen * 28.0));
+    // Tufting: strands lean toward a shared tuft centre as they rise, so the pile reads as soft clumps instead of loose needles.
+    vec3 ck = floor(g / 6.0); crn = h3(ck + 41.0);
+    vec3 cc = (ck + 0.5 + (vec3(h3(ck + 2.1), h3(ck + 7.7), h3(ck + 4.4)) - 0.5) * 0.5) * 6.0;
+    g += (cc - g) * L * clamp(uLen * 9.0, 0.1, 0.5);
     vec3 cell = floor(g); rnd = h3(cell); rnd2 = h3(cell + 17.3);
     vec3 c0 = vec3(0.5) + (vec3(h3(cell + 3.7), h3(cell + 9.1), h3(cell + 5.3)) - 0.5) * 0.4;
-    float h = 0.3 + 0.7 * rnd;
+    float h = mix(0.5, 1.0, rnd) * mix(0.72, 1.0, crn);
     if (h < L) discard;
-    if (length(fract(g) - c0) > uThick * pow(1.0 - L / h, 0.6) + 0.05) discard;
+    // thick, blunt strands (rounded tips) rather than tapering needles
+    if (length(fract(g) - c0) > uThick * (0.45 + 0.55 * pow(1.0 - L / h, 0.45)) + 0.08) discard;
   }
   float pile = nz(vObj * 70.0 * uDensity) * 0.55 + nz(vObj * 210.0 * uDensity) * 0.45;
   vec3 col = uColor;
@@ -362,7 +373,7 @@ void main(){
     float d = length(dd) / uSpot[i].w + (pile - 0.5) * 0.2;
     sp = max(sp, 1.0 - smoothstep(1.0 - uSpotSoft, 1.0, d)); }
   col = mix(col, mix(uSpotCol, col * uSpotCol * 1.6, 0.45), sp * uSpotAmt * (1.0 - 0.25 * L));
-  col *= 1.0 + uVar * (rnd2 - 0.5) * 1.6;
+  col *= (1.0 + uVar * (rnd2 - 0.5) * 1.6) * (0.94 + 0.12 * crn);
   col = mix(col, col * vec3(1.07, 0.98, 0.9), (rnd - 0.5) * uVar * 2.0);
   vec3 alb = toLin(col);
   vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
@@ -379,6 +390,7 @@ void main(){
   c += (vec3(1.0, 0.97, 0.92) * pow(sKK, 90.0) * 0.16 + alb * pow(sKK, 16.0) * 0.4) * uSheen * kvis * (0.25 + 0.75 * L) * occ;
   float rim = pow(1.0 - ndv, 3.0);
   c += (alb * 0.8 + vec3(0.06)) * rim * (0.3 + 0.7 * L) * uSheen * min(occ * 1.6, 1.0);
+  c += alb * (0.1 * pow(L, 1.4) * uSheen) * occ;
   c += alb * uEmit;
   gl_FragColor = vec4(tonemap(c), 1.0);
 }`;
@@ -562,7 +574,7 @@ void main(){
   const SHADOW_V = `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
   const SHADOW_F = `uniform float uOp; varying vec2 vUv;
 void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
-  float a = (exp(-r2 * 10.0) * 0.6 + exp(-r2 * 2.6) * 0.32) * uOp * (1.0 - smoothstep(0.55, 1.0, sqrt(r2))); gl_FragColor = vec4(0.08, 0.09, 0.13, a); }`;
+  float a = (exp(-r2 * 10.0) * 0.6 + exp(-r2 * 2.6) * 0.32) * uOp * (1.0 - smoothstep(0.55, 1.0, sqrt(r2))); gl_FragColor = vec4(0, 0, 0, a); }`;
 
   // ------------------------------------------------------------------ materials
   const sharedTime = { value: 0 };
@@ -589,7 +601,7 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
   }
   function feltU(color, o) { return fabricU(Object.assign({ color, pile: 2.4, len: 0.005, thick: 0.45, droop: 0.1, sheen: 0.22 }, o)); }
 
-  const MAXS = 18;
+  const MAXS = 26;
   function shellGeo(geo) {
     if (geo.userData.shellGeo) return geo.userData.shellGeo;
     const ig = new THREE.InstancedBufferGeometry();
@@ -785,6 +797,11 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
         piv.rotation.z = Math.sin(t * 2.2) * 0.06 + cur.hop * Math.sin(t * 14) * 0.18 + cur.talk * Math.sin(t * 9) * 0.05 - p.lin.x * 0.6; piv.rotation.x = p.lin.z * 0.6;
         pu.uEmit.value = cur.think * (0.25 + 0.25 * Math.sin(t * 8));
       };
+    } else if (id === 'beret') {
+      const cap = felt(new THREE.SphereGeometry(0.4, 48, 20), c, { sheen: 0.3 }, 6); cap.scale.set(1, 0.34, 0.95);
+      const stem = felt(new THREE.SphereGeometry(0.05, 20, 14), c, { sheen: 0.3 }, 2); stem.position.set(0.02, 0.15, 0);
+      g.add(cap, stem); g.position.set(0.06, top - 0.04, 0); g.rotation.z = -0.2; g.rotation.x = 0.05;
+      upd = (t, dt, cur, p) => { g.rotation.z = -0.2 + Math.sin(t * 1.5) * 0.015 + cur.hop * Math.sin(t * 11) * 0.05 - p.lin.x * 0.1; g.rotation.x = 0.05 + p.lin.z * 0.08; };
     } else return null;
     return { group: g, update: upd, tint };
   }
@@ -993,12 +1010,13 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
   }
 
   function buildGlasses(id, ctx) {
-    if (id !== 'round') return null;
-    const g = new THREE.Group(), frame = toyMat(ctx.color, { rough: 0.22, r: 0.05 }), glass = toyMat('#ffffff', { mode: 3, rough: 0.05 });
+    if (id !== 'round' && id !== 'sunglasses') return null;
+    const sun = id === 'sunglasses';
+    const g = new THREE.Group(), frame = toyMat(ctx.color, { rough: 0.22, r: 0.05 }), glass = sun ? toyMat('#0A0A0E', { rough: 0.08, r: 0.05 }) : toyMat('#ffffff', { mode: 3, rough: 0.05 });
     const rims = ctx.eyes.map(e => {
-      const R = e.r * 1.6;
+      const R = e.r * (sun ? 2.0 : 1.6);
       const rim = new THREE.Group(); rim.position.copy(e.p).addScaledVector(e.n, 0.06 + ctx.lift * 0.3); orient(rim, e.n);
-      rim.add(new THREE.Mesh(new THREE.TorusGeometry(R, 0.011, 10, 48), frame));
+      rim.add(new THREE.Mesh(new THREE.TorusGeometry(R, sun ? 0.016 : 0.011, 10, 48), frame));
       const lens = new THREE.Mesh(new THREE.CircleGeometry(R, 40), glass); rim.add(lens);
       g.add(rim);
       return { rim, R };
@@ -1212,7 +1230,7 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
         const backing = dark && c.eyes !== 'happy', bo = backing ? 0.006 : 0;
         if (backing) feltPatch(decor, dir, 0.15 * es, 0.005 + fl * 0.85, c.eyes === 'oval' ? 0.75 : 0.9, '#FAFAF7');
         const holder = new THREE.Group(), R = 0.075 * es;
-        eyesInfo.push(Object.assign(faceAt(dir, 0), { r: R * (c.eyes === 'oval' ? 1.25 : 1) }));
+        eyesInfo.push(Object.assign(faceAt(dir, 0), { r: R * (c.eyes === 'oval' ? 1.25 : c.eyes === 'googly' ? 1.55 : 1) }));
         if (c.eyes === 'stitched') {
           const ep = patchGeo(fn, dir, 0.085 * es, 0.006 + bo + fl * 0.9, 0.8);
           const sm = threadMat(c.eyeColor, { mode: 0, dir: [0, 1, 0], perp: [1, 0, 0], freq: 150 }); recolor.eye.push(sm.uniforms.uColor);
@@ -1224,6 +1242,12 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
         } else if (c.eyes === 'happy') {
           const hy = yarnLine(arcPts(0.05 * es, 0, PI, 0, -0.02 * es), 0.011 * es, c.eyeColor); recolor.eye.push(hy.userData.color);
           holder.add(hy); placed(decor, holder, dir, 0.004 + fl * 0.6);
+        } else if (c.eyes === 'googly') {
+          const white = new THREE.Mesh(new THREE.SphereGeometry(R * 1.55, 40, 28), toyMat('#FFFFFF', { rough: 0.06, r: R }));
+          white.scale.z = 0.7;
+          const pm = toyMat('#050507', { rough: 0.05, r: R }); recolor.eye.push(pm.uniforms.uColor);
+          const pupil = new THREE.Mesh(new THREE.SphereGeometry(R * 0.82, 32, 24), pm); pupil.position.set(0.012 * es, -0.006 * es, R * 0.95); pupil.scale.z = 0.5;
+          holder.add(white, pupil); placed(decor, holder, dir, 0.002 + bo + fl * 0.45); squashEyes.push(holder);
         } else {
           const em = toyMat('#050507', { mode: 1, iris: c.eyeColor, r: R, rough: 0.04, lid: c.color }); recolor.eye.push(em.uniforms.uIris); eyeMats.push(em);
           const ball = new THREE.Mesh(new THREE.SphereGeometry(R, 48, 32), em);
@@ -1290,7 +1314,7 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
       const es = c.eyeSize, ns = c.noseSize, ms = c.mouthSize, dark = lum(c.color) < 0.3, tr = bodyU.uTrim.value; let n = 0, p;
       [-1, 1].forEach(side => {
         p = faceAt(new V3(side * c.eyeSpacing, c.eyeHeight, 1), 0).p;
-        const r = (dark && c.eyes !== 'happy' ? 0.13 : c.eyes === 'oval' ? 0.1 : 0.085) * es;
+        const r = (dark && c.eyes !== 'happy' ? 0.13 : c.eyes === 'oval' ? 0.1 : c.eyes === 'googly' ? 0.12 : 0.085) * es;
         tr[n++].set(p.x, p.y, p.z, c.eyes === 'happy' ? -0.07 * es : r);
       });
       if (c.nose !== 'none') { p = faceAt(noseDir(c), 0).p; tr[n++].set(p.x, p.y, p.z, (c.nose === 'beak' ? 0.09 : 0.065) * ns); }
@@ -1339,7 +1363,7 @@ void main(){ vec2 p = vUv * 2.0 - 1.0; p.y *= 1.12; float r2 = dot(p, p);
       const mc = c.mouthColor || (dark ? '#F2F2F5' : '#2A1716'); recolor.mouth.forEach(u => hex(mc, u.value));
       outfit.forEach(o => { const oc = outfitColor(c, o.slot); o.tint.forEach(u => hex(oc, u.value)); });
       eyeMats.forEach(m => hex(c.color, m.uniforms.uLidCol.value));
-      const nsh = c.furLength <= 0.001 ? 0 : Math.max(4, Math.min(MAXS, Math.round((6 + 10 * c.furLength) * quality.shells)));
+      const nsh = c.furLength <= 0.001 ? 0 : Math.max(4, Math.min(MAXS, Math.round((8 + 16 * c.furLength) * quality.shells)));
       root.traverse(o => {
         if (!o.userData.shell) return;
         if (o.userData.auto && nsh > 0) { o.geometry.instanceCount = nsh; o.material.uniforms.uShellN.value = nsh; }

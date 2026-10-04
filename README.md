@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="public/brand/wordmark.png" alt="Rothenhall Partners" width="360">
-</p>
-
 # Things
 
 By Rothenhall.
@@ -24,7 +20,7 @@ Open http://localhost:3000. Production: `npm run build`, then `npm start`.
 
 ## Tour
 
-- **Characters**, 12 presets (Bruno, Clover, Miso … Willow) to start from.
+- **Characters**, 9 presets (Mallow, Plum, Mint … Truffle) to start from.
 - **Body / Fur / Face / Outfit**, shape, fabrics, features, accessories.
 - **Motion**, moods, boop/spin test, mouth override, render quality.
 - **Guide**, in-app instructions for using and embedding characters.
@@ -48,7 +44,7 @@ modules, edit them in place and check with `node --check public/studio.js`.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="things.umd.js"></script>
 <script>
-  const mascot = Things.mount(document.getElementById('mascot'), 'willow');
+  const mascot = Things.mount(document.getElementById('mascot'), 'mallow');
   mascot.setState('waving');
 </script>
 ```
