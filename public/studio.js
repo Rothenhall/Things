@@ -197,7 +197,7 @@
     s2.appendChild(el('p', 'note', 'Load three.js r128 first, then the Things file, then mount any preset or your saved config:'));
     var pre = el('pre'); pre.tabIndex = 0;
     pre.textContent = '<div id="mascot" style="width:360px;height:360px"></div>\n<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n<script src="things.umd.js"><\/script>\n<script>\n  const mascot = Things.mount(document.getElementById("mascot"), "mallow");\n  mascot.setState("waving");\n<\/script>';
-    s2.appendChild(pre); p.appendChild(s2);
+    s2.appendChild(codeBox(pre)); p.appendChild(s2);
 
     var s3 = el('div', 'sec'); s3.appendChild(el('h3', null, 'Open source'));
     s3.appendChild(el('p', 'note', 'Things is MIT-licensed (see LICENSE). Fork it, run npm install and npm run dev, and send a pull request.'));
@@ -242,9 +242,8 @@
       seg.appendChild(b);
     });
     s2.appendChild(seg);
-    codeEl = el('pre'); codeEl.tabIndex = 0; s2.appendChild(codeEl);
-    var bc = el('button', 'btn', 'Copy code'); bc.type = 'button'; bc.onclick = function () { copy(codeEl.textContent); };
-    s2.appendChild(bc); p.appendChild(s2);
+    codeEl = el('pre'); codeEl.tabIndex = 0; s2.appendChild(codeBox(codeEl));
+    p.appendChild(s2);
 
     // ---- embed on a live site: script tag + one-line setup, talks to the owner's own collector ----
     var s3 = el('div', 'sec'); s3.appendChild(el('h3', null, 'Embed on your site'));
@@ -262,16 +261,13 @@
     ep.oninput = function () { embed.endpoint = ep.value.trim(); renderEmbed(); };
     lab.appendChild(ep); s3.appendChild(lab);
     s3.appendChild(el('p', 'note', 'Running the collector on your own computer? Leave it as is for testing. For your live site it needs a public https address, see the guide linked below.'));
-    embedEl = el('pre'); embedEl.tabIndex = 0; s3.appendChild(embedEl);
+    embedEl = el('pre'); embedEl.tabIndex = 0; s3.appendChild(codeBox(embedEl));
     var r3 = el('div', 'row');
-    var bt = el('button', 'btn primary', 'Copy script tag'); bt.type = 'button'; bt.onclick = function () { copy(embedEl.textContent); };
     var bf = el('button', 'btn', 'Save character file'); bf.type = 'button'; bf.onclick = saveJson;
-    r3.style.marginBottom = '1.2rem'; r3.appendChild(bt); r3.appendChild(bf); s3.appendChild(r3);
+    r3.style.marginBottom = '1.2rem'; r3.appendChild(bf); s3.appendChild(r3);
     s3.appendChild(el('h3', null, 'Or set it all up with one command'));
     s3.appendChild(el('p', 'note', 'Save the character file first, then run this in your website project. It copies the widget in, creates your settings and starts you off with a content folder.'));
-    cmdEl = el('pre'); cmdEl.tabIndex = 0; s3.appendChild(cmdEl);
-    var bk = el('button', 'btn', 'Copy command'); bk.type = 'button'; bk.onclick = function () { copy(cmdEl.textContent); };
-    s3.appendChild(bk);
+    cmdEl = el('pre'); cmdEl.tabIndex = 0; s3.appendChild(codeBox(cmdEl));
     s3.appendChild(el('p', 'note', 'Then run: npx @rothenhall/things collector. Open http://localhost:8787/admin to see the dashboard. The full walkthrough is in docs/STUDIO_EXPORT.md in the repository.'));
     p.appendChild(s3);
   })();
@@ -283,6 +279,18 @@
     if (!embed.chat) attrs.push('data-chat="false"');
     embedEl.textContent = '<script src="/things/things-chat.js"' + String.fromCharCode(10) + '  ' + attrs.join(String.fromCharCode(10) + '  ') + String.fromCharCode(10) + '  async><' + '/script>' + String.fromCharCode(10, 10) + '<!-- /things/ is created by the command below (npx @rothenhall/things init). -->';
     cmdEl.textContent = 'npx @rothenhall/things init --config ./' + fileName('json') + (embed.chat ? ' --endpoint ' + (embed.endpoint || 'http://localhost:8787') : ' --no-chat');
+  }
+  // Code block with a quiet copy control in its top right corner.
+  function codeBox(pre) {
+    var box = el('div', 'codebox'), b = el('button', 'copy'), t = 0;
+    b.type = 'button'; b.setAttribute('aria-label', 'Copy code');
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg><span>Copy</span>';
+    b.onclick = function () {
+      copy(pre.textContent);
+      b.classList.add('done'); b.lastChild.textContent = 'Copied'; clearTimeout(t);
+      t = setTimeout(function () { b.classList.remove('done'); b.lastChild.textContent = 'Copy'; }, 1500);
+    };
+    box.appendChild(pre); box.appendChild(b); return box;
   }
   function copy(text) {
     var done = function () { toast('Copied'); };

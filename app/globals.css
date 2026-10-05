@@ -225,3 +225,17 @@ pre{background:var(--rh-night);color:var(--rh-canvas);border-radius:2px;padding:
 @media (max-width:860px){.stage{height:auto;min-height:max(62svh,460px)}}
 @media (max-width:560px){.tools{margin-left:0}}
 @media (prefers-reduced-motion:reduce){.tool:active,.mood:active,.chip:active,.btn:active{transform:none}}
+
+/* Buttons: one height, no wrapped labels, rows fill evenly */
+.btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1}
+.row{gap:10px}
+.row .btn{flex:1 1 auto}
+.btn.primary{font-weight:600}
+/* Code blocks: quiet copy control, top right */
+.codebox{position:relative;margin:0 0 12px}
+.codebox pre{margin:0;padding-top:44px}
+.codebox .copy{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 .7rem 0 .6rem;border:1px solid rgba(247,243,234,.18);border-radius:999px;background:rgba(247,243,234,.06);color:rgba(247,243,234,.62);font:500 .78rem/1 var(--rh-font-sans);cursor:pointer;transition:color .25s var(--rh-ease),border-color .25s var(--rh-ease),background .25s var(--rh-ease)}
+.codebox .copy svg{width:14px;height:14px;flex:none}
+.codebox .copy:hover{color:#f7f3ea;border-color:rgba(247,243,234,.45);background:rgba(247,243,234,.12)}
+.codebox .copy:focus-visible{outline:2px solid var(--rh-brass-soft);outline-offset:2px}
+.codebox .copy.done{color:var(--rh-brass-soft);border-color:var(--rh-brass-soft)}

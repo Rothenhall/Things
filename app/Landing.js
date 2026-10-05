@@ -95,7 +95,7 @@ export default function Landing() {
     });
     SCRIPTS.reduce((p, src) => p.then(() => load(src)), Promise.resolve()).then(() => {
       if (dead) return;
-      if (window.ThingsChat) window.ThingsChat.init({ endpoint: '', title: 'Ask Things', greeting: 'Hi! Ask me about Things.' });
+      if (window.ThingsChat) window.ThingsChat.init({ preset: 'pebble', endpoint: '', title: 'Ask Things', greeting: 'Hi! Ask me about Things.' });
     }).catch(() => {});
     return () => { dead = true; if (window.ThingsChat) window.ThingsChat.destroy(); };
   }, []);
