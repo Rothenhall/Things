@@ -91,11 +91,13 @@ export default function Landing() {
       if (document.querySelector(`script[src="${src}"]`)) return res();
       const s = document.createElement('script');
       s.src = src; s.onload = res; s.onerror = rej;
+      // The page starts the chat itself below, with its own title, greeting and starter questions.
+      if (src.indexOf('things-chat') >= 0) s.setAttribute('data-manual', '');
       document.body.appendChild(s);
     });
     SCRIPTS.reduce((p, src) => p.then(() => load(src)), Promise.resolve()).then(() => {
       if (dead) return;
-      if (window.ThingsChat) window.ThingsChat.init({ preset: 'pebble', endpoint: '', title: 'Ask Things', greeting: 'Hi! Ask me about Things.' });
+      if (window.ThingsChat) window.ThingsChat.init({ preset: 'pebble', endpoint: '', title: 'Ask Things', greeting: 'Hi! Ask me about Things.', suggestions: ['How do I embed this on my site?', 'Can I use my own AI model?', 'Is it free?'] });
     }).catch(() => {});
     return () => { dead = true; if (window.ThingsChat) window.ThingsChat.destroy(); };
   }, []);

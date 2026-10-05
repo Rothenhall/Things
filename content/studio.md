@@ -16,7 +16,7 @@ The studio is where you build a character. It runs entirely in your browser.
 - **Face**: eyes, nose, mouth and cheeks.
 - **Outfit**: hat, neckwear, glasses and decoration, including a bow.
 - **Motion**: moods (idle, waving, talking, thinking, excited, sleepy), a boop and spin test, a mouth override and render quality.
-- **Use it**: export.
+- **Use it** (button next to Photo): export.
 - **Guide**: in-app instructions for using and embedding characters.
 
 ## Controls

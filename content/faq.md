@@ -21,7 +21,7 @@ Clone the repository, run npm install, then npm run dev and open http://localhos
 
 ## How do I add a character to my own website?
 
-Load three.js r128 and things.umd.js with script tags, then call Things.mount on an element with a preset name or a config object. The studio's Use it tab generates the snippet for you.
+Load three.js r128 and things.umd.js with script tags, then call Things.mount on an element with a preset name or a config object. The studio's Use it button, next to Photo, generates the snippet for you.
 
 ## Can I use a character as a chat assistant on my site?
 
