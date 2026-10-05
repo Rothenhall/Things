@@ -5,7 +5,7 @@ The widget is one plain JavaScript file with no build step. It puts a character 
 ```html
 <script src="/things/things-chat.js"
   data-endpoint="https://things.example.com"
-  data-preset="mallow"
+  data-preset="pebble"
   async></script>
 ```
 
@@ -24,7 +24,7 @@ Add `data-manual` to stop step 1 from starting automatically and call `ThingsCha
 | Attribute | Default | Description |
 |---|---|---|
 | `data-endpoint` | origin the script was loaded from | Base URL of your collector, no trailing slash. Chat questions go to `<endpoint>/api/chat` and tracking to `<endpoint>/api/track`. **Set it whenever the widget file is not served by your collector**, in every mode including decoration-only (tracking still needs it). |
-| `data-preset` | `mallow` | A preset id: `mallow`, `plum`, `mint`, `tango`, `pebble`, `cosmo`, `poppy`, `dew`, `truffle`. |
+| `data-preset` | `pebble` | A preset id: `mallow`, `plum`, `mint`, `tango`, `pebble`, `cosmo`, `poppy`, `dew`, `truffle`. |
 | `data-config` | none | A custom character exported from the studio, as a JSON object in the attribute. Takes precedence over `data-preset`. Invalid JSON is ignored and the preset is used. In HTML wrap the value in single quotes and write `&#39;` for an apostrophe and `&amp;` for an ampersand (the studio and `things snippet` do this for you). |
 | `data-chat` | on | `false` = decoration only: no chat panel, no bubble, no questions sent. The character waves when it loads and does a short jump when clicked. |
 | `data-title` | `Ask me` | Chat panel header; also the accessible name. |

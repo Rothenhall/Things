@@ -162,7 +162,7 @@ function createThings(THREE) {
     P('minky',  { id: 'plum', name: 'Plum', shape: 'gumdrop', color: '#7B4DFF', accent: '#7B4DFF', eyes: 'oval', glasses: 'sunglasses', glassesColor: '#F7F3EA', hat: 'beanie', hatColor: '#FF9F1C', seed: 42 }),
     P('velvet', { id: 'mint', name: 'Mint', shape: 'ghost', color: '#5FE0C1', accent: '#5FE0C1', eyes: 'googly', eyeSpacing: 0.26, eyeHeight: 0.18, deco: 'flower', decoColor: '#FFFFFF', seed: 43 }),
     P('velvet', { id: 'tango', name: 'Tango', shape: 'heart', color: '#FF8A1F', accent: '#FF8A1F', eyes: 'happy', eyeSpacing: 0.28, eyeHeight: 0.04, hat: 'crown', hatColor: '#FFD23F', seed: 44 }),
-    P('velvet', { id: 'pebble', name: 'Pebble', shape: 'blob', color: '#FFC7D9', accent: '#FFC7D9', eyes: 'stitched', eyeColor: '#2B2F38', hat: 'propeller', hatColor: '#3D7BFF', seed: 45 }),
+    P('velvet', { id: 'pebble', name: 'Pebble', shape: 'blob', color: '#FFC7D9', accent: '#FFC7D9', eyes: 'stitched', eyeColor: '#2B2F38', hatColor: '#3D7BFF', seed: 45 }),
     P('velvet', { id: 'cosmo', name: 'Cosmo', shape: 'drop', color: '#1FB5A8', accent: '#1FB5A8', eyes: 'googly', eyeSpacing: 0.24, eyeHeight: 0.0, eyeSize: 1.2, hat: 'antenna', hatColor: '#FFD54A', seed: 46 }),
     P('minky',  { id: 'poppy', name: 'Poppy', shape: 'round', color: '#FF3D4F', accent: '#FF3D4F', eyes: 'oval', cheeks: 'dots', cheekColor: '#FF9AA5', hat: 'party', hatColor: '#FFD23F', seed: 47 }),
     P('minky',  { id: 'dew', name: 'Dew', shape: 'pillow', color: '#7FD4FF', accent: '#7FD4FF', eyes: 'happy', glasses: 'round', glassesColor: '#2B2F38', neck: 'scarf', neckColor: '#FFFFFF', seed: 48 }),

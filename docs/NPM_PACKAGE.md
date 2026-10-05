@@ -45,7 +45,7 @@ npx @rothenhall/things init [options]
 |---|---|---|
 | `--dir <folder>` | first of `public`, `static`, `www`, `web` that exists, else `public` | Where your site serves static files. The widget goes to `<dir>/things/`. |
 | `--config <file>` | none | A character file saved from the studio. Stored as `things.character.json` and embedded in the tag. |
-| `--preset <id>` | `mallow` | A preset, used when there is no `--config`. |
+| `--preset <id>` | `pebble` | A preset, used when there is no `--config`. |
 | `--endpoint <url>` | `http://localhost:<port>` | Public address of your collector. Goes into the tag as `data-endpoint`. |
 | `--site-url <url>` | empty | Your site, e.g. `https://example.com`. Written to `SITE_URL`. |
 | `--origin <url,...>` | `--site-url`, else `http://localhost:3000` | Written to `ALLOWED_ORIGINS`. |
@@ -144,7 +144,7 @@ export default function Mascot() {
 |---|---|---|
 | `src` | `/things/things-chat.js` | where the widget file is served |
 | `endpoint` | script's origin | `data-endpoint` |
-| `preset` | `mallow` | `data-preset` |
+| `preset` | `pebble` | `data-preset` |
 | `config` | none | `data-config` (an object) |
 | `chat` | `true` | `data-chat` |
 | `title`, `greeting`, `position`, `color` | none | the matching attributes |
@@ -163,7 +163,7 @@ Draws a character in a box you size. The 3D engine is bundled with the package, 
 import { ThingsAvatar } from '@rothenhall/things/react';
 
 <ThingsAvatar
-  config="mallow"                 // a preset id or a character object from the studio
+  config="pebble"                 // a preset id or a character object from the studio
   state="waving"                  // idle | thinking | talking | excited | sleepy | waving
   style={{ width: 360, height: 360 }}
   onPoke={() => console.log('booped')}
@@ -172,7 +172,7 @@ import { ThingsAvatar } from '@rothenhall/things/react';
 
 | Prop | Default | Meaning |
 |---|---|---|
-| `config` | `'mallow'` | Preset id or character object. Changing it updates the character live. |
+| `config` | `'pebble'` | Preset id or character object. Changing it updates the character live. |
 | `state` | `'idle'` | Mood. Changing it updates live. |
 | `quality` | `'high'` | `high`, `medium` or `low`. Lower is lighter on slow phones. |
 | `interactive` | `true` | Drag to turn it, click to boop it. |

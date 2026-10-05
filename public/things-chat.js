@@ -3,7 +3,7 @@
  *
  *   <script src="https://YOUR-THINGS-SITE/things-chat.js"
  *           data-endpoint="https://YOUR-COLLECTOR"   // where chat + analytics go (defaults to the origin this script was loaded from)
- *           data-preset="mallow" async></script>
+ *           data-preset="pebble" async></script>
  *
  * Options (data-* attributes or ThingsChat.init({...})): endpoint, preset, title, greeting, key,
  * position (right|left), color, track (default true), schema (default false), assets, chat (default true; false = decoration only,
@@ -262,7 +262,7 @@
     init: function (opts) {
       if (state.host) return ThingsChat;
       var o = Object.assign({
-        endpoint: scriptOrigin, preset: 'mallow', title: 'Ask me', greeting: 'Hi! Ask me anything about this site.',
+        endpoint: scriptOrigin, preset: 'pebble', title: 'Ask me', greeting: 'Hi! Ask me anything about this site.',
         key: '', position: 'right', color: '#a85c30', track: true, schema: false, chat: true, assets: scriptBase
       }, readAttrs(opts && opts.__el ? opts.__el : thisScript), opts || {});
       delete o.__el;

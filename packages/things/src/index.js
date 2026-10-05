@@ -7,13 +7,13 @@ const jsonAttr = (o) => JSON.stringify(o).replace(/&/g, '&amp;').replace(/'/g, '
 /**
  * Build the <script> tag that puts a Things character on a page.
  *
- *   embedSnippet({ endpoint: 'https://things.example.com', preset: 'mallow' })
+ *   embedSnippet({ endpoint: 'https://things.example.com', preset: 'pebble' })
  *   embedSnippet({ config: characterJson, chat: false })      // custom character, decoration only
  *
  * @param {object}  o
  * @param {string}  [o.src='/things/things-chat.js']  where the widget file is served from
  * @param {string}  [o.endpoint]    your collector (omit for decoration-only characters)
- * @param {string}  [o.preset='mallow']  preset id (ignored when config is set)
+ * @param {string}  [o.preset='pebble']  preset id (ignored when config is set)
  * @param {object}  [o.config]      a character exported from the studio
  * @param {boolean} [o.chat=true]   false = decoration only, no chat panel
  * @param {string}  [o.title] [o.greeting] [o.position] [o.color] [o.key]
@@ -26,7 +26,7 @@ export function embedSnippet(o = {}) {
   const add = (k, v) => { if (v !== undefined && v !== null && v !== '') a.push(`data-${k}="${attr(v)}"`); };
   add('endpoint', o.endpoint);
   if (o.config && typeof o.config === 'object') a.push(`data-config='${jsonAttr(o.config)}'`);
-  else add('preset', o.preset || 'mallow');
+  else add('preset', o.preset || 'pebble');
   if (o.chat === false) a.push('data-chat="false"');
   add('title', o.title); add('greeting', o.greeting); add('position', o.position); add('color', o.color); add('key', o.key); add('assets', o.assets);
   if (o.track === false) a.push('data-track="false"');

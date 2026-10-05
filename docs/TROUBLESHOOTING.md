@@ -30,7 +30,7 @@ Then find your symptom below. Each entry says what to look at and what to change
 | Console: CORS error calling `/api/chat` or `/api/track` | The page's exact origin is not in `ALLOWED_ORIGINS` on the collector. Include `https://www.` and non-`www` variants, and `http://localhost:3000` for local testing. Restart the collector. |
 | Console: "Mixed content" / blocked request to `http://...` | An https page cannot call an http collector. Put https in front of the collector ([DEPLOYMENT.md](DEPLOYMENT.md#https-reverse-proxy-and-the-dashboard)). |
 | Chrome asks to "access other apps and services on this device" | A public page is calling `localhost`. Allow it for testing, or use a tunnel address. The collector already answers the pre-flight. |
-| Wrong character or default `mallow` shows | `data-config` has invalid JSON and was ignored. Look for unescaped quotes; regenerate with `npx @rothenhall/things snippet --config ./character.json`. |
+| Wrong character or default `pebble` shows | `data-config` has invalid JSON and was ignored. Look for unescaped quotes; regenerate with `npx @rothenhall/things snippet --config ./character.json`. |
 | Two characters appear | The tag is on the page twice (for example in the theme and in a plugin). Remove one. |
 | The character is cut off or too big | The widget is 120 px. Check no CSS `transform` or `overflow:hidden` on `body` clips fixed-position elements. |
 | It disappears when navigating in my single-page app | The script was loaded once and the page was replaced. Mount it once at the app root (`ThingsMascot`), not per page. |

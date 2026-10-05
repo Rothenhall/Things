@@ -3,7 +3,7 @@
   var K = window.Things, $ = function (id) { return document.getElementById(id); };
   if (!K || !window.THREE) { $('avatar').innerHTML = '<p class="err">The 3D engine could not load. Check your connection and reload.</p>'; return; }
 
-  var KEY = 'things-v1';
+  var KEY = 'things-v2';
   var store = {
     get: function () { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
     set: function (v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
@@ -17,7 +17,7 @@
     av = K.mount($('avatar'), cfg, { quality: quality, state: mood, preserveDrawingBuffer: true });
     av.on('poke', function () { $('avatar').dataset.booped = '1'; });
   }
-  mountAvatar(saved.config || 'mallow');
+  mountAvatar(saved.config || 'pebble');
 
   // ---------------- history ----------------
   var hist = [av.getConfig()], hi = 0;
@@ -105,7 +105,7 @@
     { id: 'Outfit', label: 'Outfit', sections: [['Hat', ['hat', 'hatColor']], ['Neck', ['neck', 'neckColor']], ['Glasses', ['glasses', 'glassesColor']], ['Decoration', ['deco', 'decoColor']]] },
     { id: 'Motion', label: 'Motion' },
     { id: 'Guide', label: 'Guide' },
-    { id: 'Export', label: 'Use it' }
+    { id: 'Export', label: 'Use it', hidden: true }
   ];
   var byKey = {}; K.schema.forEach(function (f) { byKey[f.key] = f; });
   var panes = {};
@@ -117,18 +117,22 @@
       pane.appendChild(sec);
     });
     panes[g.id] = pane; $('body').appendChild(pane);
+    if (g.hidden) return;
     var tab = el('button', 'tab', g.label); tab.type = 'button'; tab.setAttribute('role', 'tab'); tab.dataset.g = g.id; tab.setAttribute('aria-controls', pane.id);
     tab.onclick = function () { showTab(g.id); };
     $('tabs').appendChild(tab);
   });
+  var lastTab = 'Body';
   function showTab(id) {
+    if (id !== 'Export') lastTab = id;
+    $('useit').setAttribute('aria-pressed', String(id === 'Export'));
     Array.prototype.forEach.call($('tabs').children, function (t) { t.setAttribute('aria-selected', String(t.dataset.g === id)); t.tabIndex = t.dataset.g === id ? 0 : -1; });
     Object.keys(panes).forEach(function (k) { panes[k].hidden = k !== id; });
     if (id === 'Export') renderCode();
   }
   $('tabs').addEventListener('keydown', function (e) {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    var ids = GROUPS.map(function (g) { return g.id; }), cur = ids.indexOf(document.activeElement.dataset.g);
+    var ids = GROUPS.filter(function (g) { return !g.hidden; }).map(function (g) { return g.id; }), cur = ids.indexOf(document.activeElement.dataset.g);
     if (cur < 0) return; var n = ids[(cur + (e.key === 'ArrowRight' ? 1 : -1) + ids.length) % ids.length];
     showTab(n); $('tabs').querySelector('[data-g="' + n + '"]').focus(); e.preventDefault();
   });
@@ -186,7 +190,7 @@
   (function () {
     var p = panes.Guide;
     var s1 = el('div', 'sec'); s1.appendChild(el('h3', null, 'Make a character'));
-    s1.appendChild(el('p', 'note', '1. Pick a preset from Characters. 2. Shape it with the Body, Fur, Face and Outfit tabs. 3. Open the Use it tab to save a photo, the character file, or copy code for your own site. Embed on your site adds the chat widget and your own analytics dashboard.'));
+    s1.appendChild(el('p', 'note', '1. Pick a preset from Characters. 2. Shape it with the Body, Fur, Face and Outfit tabs. 3. Press Use it, next to Photo, to save a photo, the character file, or copy code for your own site. Embed on your site adds the chat widget and your own analytics dashboard.'));
     p.appendChild(s1);
 
     var s2 = el('div', 'sec'); s2.appendChild(el('h3', null, 'Use it on your site'));
@@ -310,6 +314,12 @@
     offer(fileName('json'), text, function () { copy(text); toast('Saving is not available here, so the file was copied instead'); });
   }
   $('photo').onclick = savePhoto;
+  $('useit').onclick = function () {
+    var open = $('useit').getAttribute('aria-pressed') === 'true';
+    showTab(open ? lastTab : 'Export');
+    $('body').scrollTop = 0;
+    if (!open && window.matchMedia('(max-width:860px)').matches) $('tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
   $('closeModal').onclick = function () { $('modal').classList.remove('on'); };
   $('modal').onclick = function (e) { if (e.target === $('modal')) $('modal').classList.remove('on'); };
 

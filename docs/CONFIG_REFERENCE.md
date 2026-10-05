@@ -96,7 +96,7 @@ Set on the `<script>` tag as `data-*` attributes, or pass the same names (withou
 | Attribute | Default | Meaning |
 |---|---|---|
 | `data-endpoint` | origin the script was loaded from | Your collector. |
-| `data-preset` | `mallow` | One of `mallow`, `plum`, `mint`, `tango`, `pebble`, `cosmo`, `poppy`, `dew`, `truffle`. |
+| `data-preset` | `pebble` | One of `mallow`, `plum`, `mint`, `tango`, `pebble`, `cosmo`, `poppy`, `dew`, `truffle`. |
 | `data-config` | none | A custom character exported from the studio, as JSON. Overrides `data-preset`. |
 | `data-chat` | on | `false` = decoration only. |
 | `data-title` | `Ask me` | Chat header text. |

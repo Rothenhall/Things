@@ -19,7 +19,7 @@ const HOST = process.env.COLLECTOR_HOST || '0.0.0.0';
 const MAX_BODY = 16 * 1024;
 
 // The collector also serves the widget files, so one public address is enough for sites you cannot upload files to:
-//   <script src="https://YOUR-COLLECTOR/things/things-chat.js" data-preset="mallow"></script>
+//   <script src="https://YOUR-COLLECTOR/things/things-chat.js" data-preset="pebble"></script>
 // Package layout: collector/server -> ../../dist.  Repo layout: server -> ../public.
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ASSET_DIRS = [path.resolve(HERE, '../../dist'), path.resolve(HERE, '../public')];

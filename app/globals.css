@@ -210,3 +210,18 @@ pre{background:var(--rh-night);color:var(--rh-canvas);border-radius:2px;padding:
 .doc pre{background:var(--rh-night);color:#f1ece0;padding:1rem;border-radius:10px;overflow:auto}.doc pre code{background:none;padding:0}
 .doc blockquote{margin:1rem 0;padding-left:1rem;border-left:3px solid var(--rh-line-strong);color:var(--rh-ink-60)}
 .lp-img{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat}
+
+/* UX pass: toolbar labels, press feedback, active state for Use it */
+.top{flex-wrap:wrap;row-gap:14px}
+.tools{flex-wrap:nowrap;margin-left:auto}
+@media (max-width:1320px){#random{width:44px;padding:0}#random .t{display:none}}
+.tool,.mood,.chip,.btn{-webkit-tap-highlight-color:transparent}
+.tool:active:not(:disabled),.mood:active,.chip:active,.btn:active{transform:scale(.97)}
+.stage .tool[aria-pressed="true"]{background:rgba(247,243,234,.14);border-color:#f7f3ea}
+@media (min-width:721px) and (max-width:860px){
+ #photo,#useit{width:auto;padding:0 1.1rem}
+ #photo .t,#useit .t{display:inline}
+}
+@media (max-width:860px){.stage{height:auto;min-height:max(62svh,460px)}}
+@media (max-width:560px){.tools{margin-left:0}}
+@media (prefers-reduced-motion:reduce){.tool:active,.mood:active,.chip:active,.btn:active{transform:none}}

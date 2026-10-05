@@ -209,7 +209,7 @@ Paste before `</body>` on every page you want the character on. The script and t
 ```html
 <script src="https://YOUR-THINGS-SITE/things-chat.js"
         data-endpoint="https://YOUR-COLLECTOR-ADDRESS"
-        data-preset="mallow"
+        data-preset="pebble"
         data-title="Ask Mallow"
         data-greeting="Hi! Ask me anything about us."
         async></script>
@@ -220,7 +220,7 @@ All options:
 | Attribute | Default | Meaning |
 |---|---|---|
 | `data-endpoint` | the script's own origin | Your collector. |
-| `data-preset` | `mallow` | Character id. |
+| `data-preset` | `pebble` | Character id. |
 | `data-title`, `data-greeting` | "Ask me" / "Hi! Ask me anything about this site." | Header text and first message. |
 | `data-chat` | on | `false` = capture-only mode: the character is decoration, there is no chat panel, and no questions are asked or sent. Tracking still runs. Pair it with `CHAT_ENABLED=false` on the server. |
 | `data-key` | none | Sent as `x-things-key`. Must equal `SITE_KEY` if you set one. |

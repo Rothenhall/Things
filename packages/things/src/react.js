@@ -3,16 +3,16 @@
 //
 //   import { ThingsAvatar, ThingsMascot } from '@rothenhall/things/react';
 //
-//   <ThingsAvatar config="mallow" state="waving" style={{ width: 360, height: 360 }} />   // a character in a box
+//   <ThingsAvatar config="pebble" state="waving" style={{ width: 360, height: 360 }} />   // a character in a box
 //   <ThingsMascot endpoint="https://things.example.com" preset="plum" />                  // the corner chat widget
 import { createElement as h, useEffect, useRef } from 'react';
 import Things from '../dist/things.umd.js';
 
 /**
  * Renders one character into a div. The 3D engine is bundled with this package (three.js r128).
- * config: a preset id such as 'mallow', or a config object exported from the studio.
+ * config: a preset id such as 'pebble', or a config object exported from the studio.
  */
-export function ThingsAvatar({ config = 'mallow', state = 'idle', quality = 'high', interactive = true, autoLook = true, distance, onReady, onPoke, style, className }) {
+export function ThingsAvatar({ config = 'pebble', state = 'idle', quality = 'high', interactive = true, autoLook = true, distance, onReady, onPoke, style, className }) {
   const box = useRef(null);
   const handle = useRef(null);
 
@@ -44,7 +44,7 @@ export function ThingsAvatar({ config = 'mallow', state = 'idle', quality = 'hig
  * The corner widget (chat, or decoration-only with chat={false}). It loads things-chat.js, which `npx @rothenhall/things init`
  * copies to /things/things-chat.js. Mount it once, near the root of your app.
  */
-export function ThingsMascot({ src = '/things/things-chat.js', endpoint, preset = 'mallow', config, chat = true, title, greeting, position, color, apiKey, track = true, schema = false, assets }) {
+export function ThingsMascot({ src = '/things/things-chat.js', endpoint, preset = 'pebble', config, chat = true, title, greeting, position, color, apiKey, track = true, schema = false, assets }) {
   useEffect(() => {
     if (typeof document === 'undefined') return undefined;
     const s = document.createElement('script');

@@ -80,7 +80,7 @@ modules, edit them in place and check with `node --check public/studio.js`.
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="things.umd.js"></script>
 <script>
-  const mascot = Things.mount(document.getElementById('mascot'), 'mallow');
+  const mascot = Things.mount(document.getElementById('mascot'), 'pebble');
   mascot.setState('waving');
 </script>
 ```

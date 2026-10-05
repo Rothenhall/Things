@@ -65,7 +65,7 @@ The admin dashboard is blocked for tunnelled requests (`ADMIN_LOCAL_ONLY` is on 
 ```html
 <script src="https://YOUR-DEPLOYED-THINGS-SITE/things-chat.js"
         data-endpoint="https://YOUR-COLLECTOR-ADDRESS"
-        data-preset="mallow"
+        data-preset="pebble"
         data-title="Ask Mallow"
         data-schema="true"
         async></script>
@@ -74,7 +74,7 @@ The admin dashboard is blocked for tunnelled requests (`ADMIN_LOCAL_ONLY` is on 
 | Attribute | Default | Meaning |
 |---|---|---|
 | `data-endpoint` | script's own origin | Your collector. |
-| `data-preset` | `mallow` | Any preset id: mallow, plum, mint, tango, pebble, cosmo, poppy, dew, truffle. |
+| `data-preset` | `pebble` | Any preset id: mallow, plum, mint, tango, pebble, cosmo, poppy, dew, truffle. |
 | `data-title`, `data-greeting` | "Ask me" | Header text and first message. |
 | `data-key` | none | Sent as `x-things-key`; must match `SITE_KEY` if you set one. A spam filter, not a secret. |
 | `data-position` | `right` | `left` or `right`. |

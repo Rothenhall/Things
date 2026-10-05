@@ -39,7 +39,7 @@ The engine needs global `THREE` (r128) loaded first, then the UMD file:
 <script src="things.umd.js"></script>
 <script>
   // pass a preset id, or a full/partial config object
-  const mascot = Things.mount(document.getElementById('mascot'), 'mallow', { state: 'idle' });
+  const mascot = Things.mount(document.getElementById('mascot'), 'pebble', { state: 'idle' });
   mascot.setConfig({ color: '#7FA7E8', hat: 'beanie' });
   mascot.setState('waving'); // idle | thinking | talking | excited | sleepy | waving
   mascot.setMouth(0.6);      // lip-sync 0..1, or null for automatic
@@ -55,7 +55,7 @@ The engine needs global `THREE` (r128) loaded first, then the UMD file:
 
 | Call | What it does |
 |---|---|
-| `Things.mount(el, config, opts)` | Mount avatar. `config` = preset id (`'mallow'`) or config object. `opts` = `{ state, quality: 'high'\|'medium'\|'low', interactive, autoLook, distance }`. Returns the avatar handle. |
+| `Things.mount(el, config, opts)` | Mount avatar. `config` = preset id (`'pebble'`) or config object. `opts` = `{ state, quality: 'high'\|'medium'\|'low', interactive, autoLook, distance }`. Returns the avatar handle. |
 | `avatar.setConfig(partial)` | Merge one or more keys (e.g. `{ hat: 'beanie' }`). Structural keys (shape/ears/arms/feet/tail/muzzle/seed) rebuild; the rest update live. Emits `change`. |
 | `avatar.getConfig()` | Full current config object (save this as your character file). |
 | `avatar.setState(name)` | `idle \| thinking \| talking \| excited \| sleepy \| waving` |
