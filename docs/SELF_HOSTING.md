@@ -16,7 +16,7 @@ Requirements: Node.js 20.12 or newer (or Docker). No database.
 ### Docker
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 cp .env.example .env        # then set ADMIN_TOKEN, SITE_URL, ALLOWED_ORIGINS
 docker compose up -d --build
@@ -29,7 +29,7 @@ Open http://localhost:3000. Data is in the `things-data` volume. Your content is
 ### Node directly
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 npm ci
 cp .env.example .env

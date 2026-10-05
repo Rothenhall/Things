@@ -15,7 +15,7 @@ By contributing you confirm you wrote the code (or have the right to submit it) 
 ## Set up
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 npm ci
 cp .env.example .env     # optional; ADMIN_TOKEN enables /admin

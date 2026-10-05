@@ -5,9 +5,9 @@
   "license": "MIT",
   "author": "Rothenhall",
   "type": "module",
-  "homepage": "https://github.com/Rothenhall/things#readme",
-  "repository": { "type": "git", "url": "git+https://github.com/Rothenhall/things.git", "directory": "packages/things" },
-  "bugs": { "url": "https://github.com/Rothenhall/things/issues" },
+  "homepage": "https://github.com/Rothenhall/Things#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/Rothenhall/Things.git", "directory": "packages/things" },
+  "bugs": { "url": "https://github.com/Rothenhall/Things/issues" },
   "keywords": ["mascot", "three.js", "chatbot", "aeo", "geo", "llms.txt", "self-hosted", "analytics", "ai-traffic"],
   "bin": { "things": "bin/things.mjs" },
   "exports": {

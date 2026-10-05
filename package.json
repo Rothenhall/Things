@@ -5,13 +5,13 @@
   "license": "MIT",
   "author": "Rothenhall",
   "private": true,
-  "homepage": "https://github.com/Rothenhall/things#readme",
+  "homepage": "https://github.com/Rothenhall/Things#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rothenhall/things.git"
+    "url": "git+https://github.com/Rothenhall/Things.git"
   },
   "bugs": {
-    "url": "https://github.com/Rothenhall/things/issues"
+    "url": "https://github.com/Rothenhall/Things/issues"
   },
   "keywords": ["three.js", "avatar", "plush", "character", "editor", "chatbot", "aeo", "geo", "llms.txt", "self-hosted"],
   "engines": {

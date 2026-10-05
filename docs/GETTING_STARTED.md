@@ -66,7 +66,7 @@ You need Node.js 20.12 or newer (check with `node --version`), or Docker.
 ### Step 1. Get the code and install
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 npm ci
 cp .env.example .env
@@ -295,7 +295,7 @@ On a site you control, serve `llms.txt` from your own domain (the Cloudflare Wor
 ## Path 2: all-in-one on one server
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 cp .env.example .env     # set ADMIN_TOKEN, SITE_URL, ALLOWED_ORIGINS
 docker compose up -d --build
@@ -384,4 +384,4 @@ Then restart the collector or app.
 
 ## Help
 
-Issues and pull requests are welcome: https://github.com/Rothenhall/things. See [CONTRIBUTING.md](../CONTRIBUTING.md) and [SECURITY.md](../SECURITY.md).
+Issues and pull requests are welcome: https://github.com/Rothenhall/Things. See [CONTRIBUTING.md](../CONTRIBUTING.md) and [SECURITY.md](../SECURITY.md).

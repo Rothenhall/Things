@@ -39,7 +39,7 @@ Documentation: **[docs/](docs/README.md)** · [Studio to live site](docs/STUDIO_
 ## Quickstart
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 npm install
 npm run dev
@@ -90,7 +90,7 @@ modules, edit them in place and check with `node --check public/studio.js`.
 Fork it, `npm ci`, `npm run dev`. Before a pull request run `npm run check`, `npm test` and `npm run build`.
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) first; keep edits small and in the existing
 vanilla-JS style. Be kind: [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: [SECURITY.md](SECURITY.md).
-Questions: open a [discussion](https://github.com/Rothenhall/things/discussions).
+Questions: open a [discussion](https://github.com/Rothenhall/Things/discussions).
 
 ## License
 

@@ -21,7 +21,7 @@ That is the whole setup. The first command copies the widget into your project a
 
 ## 1. Design your character
 
-Build it in the studio (https://github.com/Rothenhall/things, run it with `npm run dev`, or use your deployed copy). Open **Use it**, choose **Embed on your site**, and either copy the generated `<script>` tag or save the character file and pass it to the CLI:
+Build it in the studio (https://github.com/Rothenhall/Things, run it with `npm run dev`, or use your deployed copy). Open **Use it**, choose **Embed on your site**, and either copy the generated `<script>` tag or save the character file and pass it to the CLI:
 
 ```bash
 npx @rothenhall/things init --config ./my-character.json
@@ -111,7 +111,7 @@ Node.js 20.12 or newer. The widget needs WebGL in the visitor's browser; without
 
 ## Documentation
 
-Full guides live in the repository's [docs](https://github.com/Rothenhall/things/tree/main/docs) folder: getting started, the studio export flow, widget and collector API references, configuration, deployment recipes, framework guides, privacy and troubleshooting.
+Full guides live in the repository's [docs](https://github.com/Rothenhall/Things/tree/main/docs) folder: getting started, the studio export flow, widget and collector API references, configuration, deployment recipes, framework guides, privacy and troubleshooting.
 
 ## License
 

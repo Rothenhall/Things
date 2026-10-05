@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Please report it privately through GitHub: **Security tab, "Report a vulnerability"** on this repository (https://github.com/Rothenhall/things/security/advisories/new). Do not open a public issue or discussion.
+Please report it privately through GitHub: **Security tab, "Report a vulnerability"** on this repository (https://github.com/Rothenhall/Things/security/advisories/new). Do not open a public issue or discussion.
 
 Include what you found, how to reproduce it, and the version or commit. You can expect an acknowledgement within a few days. This is a volunteer-run open source project, so there is no guaranteed fix time, but confirmed issues are prioritized, and you will be credited in the advisory unless you prefer not to be.
 

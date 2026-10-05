@@ -50,7 +50,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
   - Tests: `npm test` (node:test, `test/`). New env vars go in `.env.example` and `docs/SELF_HOSTING.md`.
   - Product rule: stays free to self-host. No telemetry, no required paid service, no license checks.
 - `HOW_TO_USE.md` → user docs + library API + npm-publish guide.
-- `README.md` → public front page (repo: https://github.com/Rothenhall/things).
+- `README.md` → public front page (repo: https://github.com/Rothenhall/Things).
   `LICENSE` → MIT © Rothenhall.
 - In-page `Guide` tab (`public/studio.js`, `panes.Guide`) mirrors the README
   basics + embed snippet. Keep the two in sync when either changes.

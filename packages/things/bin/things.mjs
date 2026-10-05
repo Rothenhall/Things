@@ -181,7 +181,7 @@ ${bold('Examples')}
   npx @rothenhall/things collector
   npx @rothenhall/things doctor --endpoint https://things.example.com
 
-Docs: https://github.com/Rothenhall/things/tree/main/docs
+Docs: https://github.com/Rothenhall/Things/tree/main/docs
 `);
 }
 

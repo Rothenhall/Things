@@ -130,4 +130,4 @@ Then find your symptom below. Each entry says what to look at and what to change
 
 **How do I stop using it?** Remove the tag. Optionally delete `things-data/`. See [NPM_PACKAGE.md](NPM_PACKAGE.md#uninstalling).
 
-**Where do I report a bug?** https://github.com/Rothenhall/things/issues. Include the output of `npx @rothenhall/things doctor` and the browser console messages.
+**Where do I report a bug?** https://github.com/Rothenhall/Things/issues. Include the output of `npx @rothenhall/things doctor` and the browser console messages.

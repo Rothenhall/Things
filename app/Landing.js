@@ -106,7 +106,7 @@ export default function Landing() {
     <main className="lp">
       <nav className="lp-nav">
         <span className="lp-brand"><span className="lp-script-sm">Things</span> <span className="by">by Rothenhall</span></span>
-        <a href="https://github.com/Rothenhall/things" rel="noopener">Open source · MIT</a>
+        <a href="https://github.com/Rothenhall/Things" rel="noopener">Open source · MIT</a>
       </nav>
 
       <section className="lp-stage">

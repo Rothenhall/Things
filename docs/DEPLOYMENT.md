@@ -108,7 +108,7 @@ with `things.env`, `things-content/` and `things-data/` in the current folder (t
 Runs the studio, the landing page, the chat and the dashboard on one server and one origin.
 
 ```bash
-git clone https://github.com/Rothenhall/things.git && cd things
+git clone https://github.com/Rothenhall/Things.git && cd things
 cp .env.example .env              # set ADMIN_TOKEN, SITE_URL, ALLOWED_ORIGINS
 docker compose up -d --build      # or: npm ci && npm run build && npm start
 ```

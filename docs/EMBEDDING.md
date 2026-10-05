@@ -21,7 +21,7 @@ The deployed site never sees your visitors' questions. If you host the static fi
 ## 1. Run the collector
 
 ```bash
-git clone https://github.com/Rothenhall/things.git
+git clone https://github.com/Rothenhall/Things.git
 cd things
 npm ci
 cp .env.example .env

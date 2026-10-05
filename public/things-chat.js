@@ -10,7 +10,7 @@
  * no chat panel, tracking still runs), config (a custom character exported from the studio: a JSON string
  * in data-config, or an object passed to init as preset).
  * Plain script, no build step. Loads three.js + things.umd.js from the same place as this file if missing.
- * Part of Things, MIT licensed: https://github.com/Rothenhall/things
+ * Part of Things, MIT licensed: https://github.com/Rothenhall/Things
  */
 (function () {
   'use strict';
