@@ -76,7 +76,6 @@
     'form{display:flex;gap:6px;padding:10px;border-top:1px solid #ddd5c4}',
     'input{flex:1;min-width:0;font-size:14px;padding:9px 12px;border:1px solid #ddd5c4;border-radius:999px;background:#fff;color:#1a1712}input:focus-visible{outline:2px solid var(--c);outline-offset:1px}',
     'button.go{all:unset;cursor:pointer;background:var(--c);color:#fff;padding:0 14px;border-radius:999px;font-size:14px;display:flex;align-items:center}button.go:disabled{opacity:.5;cursor:default}',
-    '.tip{background:#fbf9f3;color:#1a1712;border:1px solid #ddd5c4;border-radius:14px;padding:6px 12px;font-size:13px;box-shadow:0 6px 20px rgba(26,23,18,.12);cursor:pointer}.open .tip{display:none}',
     '.av{width:120px;height:120px;cursor:pointer;border-radius:50%}.av:focus-visible{outline:2px solid var(--c)}',
     '@media(prefers-reduced-motion:reduce){.dots span{animation:none}}'
   ].join('');
@@ -187,9 +186,8 @@
     form.appendChild(input); form.appendChild(btn);
     panel.appendChild(head); panel.appendChild(log); panel.appendChild(form);
 
-    var tip = el('div', 'tip', o.greeting); tip.setAttribute('role', 'button');
     var av = el('div', 'av'); av.tabIndex = 0; av.setAttribute('role', 'button'); av.setAttribute('aria-label', 'Open chat with ' + o.title);
-    wrap.appendChild(panel); wrap.appendChild(tip); wrap.appendChild(av);
+    wrap.appendChild(panel); wrap.appendChild(av);
     root.appendChild(wrap);
     document.body.appendChild(host);
     Object.assign(state, { host: host, root: root, wrap: wrap, log: log, input: input });
@@ -203,7 +201,6 @@
     state.toggle = toggle;
     av.addEventListener('click', function () { toggle(); });
     av.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
-    tip.addEventListener('click', function () { toggle(true); });
     close.addEventListener('click', function () { toggle(false); av.focus(); });
     panel.addEventListener('keydown', function (e) { if (e.key === 'Escape') toggle(false); });
     form.addEventListener('submit', function (e) {
