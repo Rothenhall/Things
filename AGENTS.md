@@ -60,7 +60,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
 - **Do not bundle `public/*.js` into Next imports.** They are served as static
   files and depend on load order (`THREE` global first). Edit them in place and
   verify with `node --check`; refresh the browser (hard refresh — aggressive
-  caching + `localStorage` key `things-v1` can mask your change).
+  caching + `localStorage` key `things-v2` can mask your change).
 - **Hair feature was removed.** `buildHair()` in `things.umd.js` returns `null`,
   the Hair tab is out of `GROUPS`, random + Willow preset force `hair: 'none'`.
   Do not reintroduce it. Known leftover: dead hair entries still in `OPTIONS`,
@@ -78,7 +78,7 @@ not bundled modules. Source of truth for behavior is the code, not any spec doc.
   snippets importing `'things/react'`, which is **not a published package** —
   aspirational until the library is published (see `HOW_TO_USE.md` §6).
 - **Presets:** 9 entries via `fab()` in `things.umd.js` (search `PRESETS`), built
-  on `FABRICS` + overrides. `mountAvatar(saved.config || 'willow')` is the
+  on `FABRICS` + overrides. `mountAvatar(saved.config || 'pebble')` is the
   default character.
 - Keep edits minimal and local: no new deps, no TS migration, no refactors
   beyond the requested change. Match the existing vanilla-JS style in `public/`.

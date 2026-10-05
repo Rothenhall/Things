@@ -62,20 +62,17 @@ The admin dashboard is blocked for tunnelled requests (`ADMIN_LOCAL_ONLY` is on 
 
 ## Bring your own model
 
-The embed code never contains a model key. The key lives in the environment of the collector you run, and the widget on your pages only talks to that collector. To use a model:
+The embed code never contains a model key. The key lives in the environment of the collector you run, and the widget on your pages only talks to that collector.
+
+The simplest setup is your own OpenAI key:
 
 ```bash
-# Sarvam
-LLM_PROVIDER=sarvam
-LLM_API_KEY=your-sarvam-key
-
-# OpenAI, Anthropic, Gemini, Groq or OpenRouter: change LLM_PROVIDER
-# Anything else with an OpenAI-style chat API (Ollama, LM Studio, vLLM, a company gateway):
 LLM_PROVIDER=openai
-LLM_BASE_URL=https://your-host/v1
-LLM_MODEL=your-model
-LLM_API_KEY=if-it-needs-one
+LLM_API_KEY=your-openai-key
+# LLM_MODEL=gpt-4o-mini   (the default)
 ```
+
+Other providers are optional and work the same way. Set `LLM_PROVIDER` to `anthropic`, `sarvam`, `gemini`, `groq` or `openrouter`, or keep `openai` and point `LLM_BASE_URL` and `LLM_MODEL` at any service with an OpenAI-style chat API (Ollama, LM Studio, vLLM, a company gateway).
 
 What you need to run this: a collector (`npx @rothenhall/things collector`, or the Docker image) on a host with a disk, and a public https address for it. Without a key the character still answers by quoting your content. Providers that do not offer an OpenAI-style chat endpoint need an OpenAI-compatible gateway in front of them.
 

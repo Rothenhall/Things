@@ -51,3 +51,51 @@ test('a failing provider falls back to quoting the content instead of erroring',
     assert.equal(r.mode, 'extractive');
   } finally { globalThis.fetch = real; console.warn = warn; }
 });
+
+test('greetings and thanks get a friendly reply without calling the model', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'things-llm-'));
+  await fs.writeFile(path.join(dir, 'index.md'), '---\npath: /\n---\n# Home\n\nWe sell lamps.\n');
+  const cfg = getConfig({ CONTENT_DIR: dir, DATA_DIR: dir, SITE_NAME: 'Lamp Shop', LLM_PROVIDER: 'sarvam', LLM_API_KEY: 'k' });
+  const real = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; return new Response('{}', { status: 500 }); };
+  try {
+    for (const q of ['hi', 'Hello!', 'thanks', 'bye']) {
+      const r = await answerQuestion(cfg, q);
+      assert.equal(r.answered, true, q);
+      assert.equal(r.mode, 'smalltalk', q);
+    }
+    assert.match((await answerQuestion(cfg, 'hi')).answer, /Lamp Shop/);
+    assert.equal(calls, 0);
+  } finally { globalThis.fetch = real; }
+});
+
+test('a general question reaches the model together with a profile of the site', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'things-llm-'));
+  await fs.writeFile(path.join(dir, 'index.md'), '---\npath: /\ntitle: Lamp Shop\n---\n# Lamp Shop\n\nWe make handmade lamps in Pune.\n');
+  const cfg = getConfig({ CONTENT_DIR: dir, DATA_DIR: dir, SITE_NAME: 'Lamp Shop', LLM_PROVIDER: 'openai', LLM_API_KEY: 'k' });
+  const real = globalThis.fetch;
+  let sent;
+  globalThis.fetch = async (url, init) => {
+    sent = JSON.parse(init.body);
+    return new Response(JSON.stringify({ choices: [{ message: { content: 'It is a shop that makes handmade lamps in Pune.' } }] }), { status: 200 });
+  };
+  try {
+    const r = await answerQuestion(cfg, 'what is this place about');
+    assert.equal(r.mode, 'llm');
+    assert.match(sent.messages[1].content, /About this site\. Name: Lamp Shop/);
+    assert.match(sent.messages[1].content, /handmade lamps in Pune/);
+  } finally { globalThis.fetch = real; }
+});
+
+test('the model can still refuse: NO_ANSWER becomes a content gap', async () => {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'things-llm-'));
+  await fs.writeFile(path.join(dir, 'index.md'), '---\npath: /\n---\n# Home\n\nWe sell lamps.\n');
+  const cfg = getConfig({ CONTENT_DIR: dir, DATA_DIR: dir, LLM_PROVIDER: 'openai', LLM_API_KEY: 'k' });
+  const real = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ choices: [{ message: { content: 'NO_ANSWER' } }] }), { status: 200 });
+  try {
+    const r = await answerQuestion(cfg, 'what is the capital of France');
+    assert.equal(r.answered, false);
+  } finally { globalThis.fetch = real; }
+});
