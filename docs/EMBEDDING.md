@@ -60,6 +60,25 @@ Your PC must be on for the chat to work. If the collector is unreachable the cha
 
 The admin dashboard is blocked for tunnelled requests (`ADMIN_LOCAL_ONLY` is on by default for the collector), so exposing the port does not expose the dashboard. It detects tunnels by the `X-Forwarded-For` / `CF-Connecting-IP` header they add. A custom proxy that removes those headers defeats this, so set `ADMIN_LOCAL_ONLY=true` and bind with `COLLECTOR_HOST=127.0.0.1` if you proxy locally.
 
+## Bring your own model
+
+The embed code never contains a model key. The key lives in the environment of the collector you run, and the widget on your pages only talks to that collector. To use a model:
+
+```bash
+# Sarvam
+LLM_PROVIDER=sarvam
+LLM_API_KEY=your-sarvam-key
+
+# OpenAI, Anthropic, Gemini, Groq or OpenRouter: change LLM_PROVIDER
+# Anything else with an OpenAI-style chat API (Ollama, LM Studio, vLLM, a company gateway):
+LLM_PROVIDER=openai
+LLM_BASE_URL=https://your-host/v1
+LLM_MODEL=your-model
+LLM_API_KEY=if-it-needs-one
+```
+
+What you need to run this: a collector (`npx @rothenhall/things collector`, or the Docker image) on a host with a disk, and a public https address for it. Without a key the character still answers by quoting your content. Providers that do not offer an OpenAI-style chat endpoint need an OpenAI-compatible gateway in front of them.
+
 ## 3. Add the script to your site
 
 ```html

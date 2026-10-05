@@ -61,10 +61,10 @@ Leave all of these empty and the chat quotes the best matching passages of your 
 
 | Variable | Default | What it does |
 |---|---|---|
-| `LLM_PROVIDER` | automatic | `openai` (any OpenAI-compatible API) or `anthropic`. If empty it is `openai` when `LLM_API_KEY` or `LLM_BASE_URL` is set, otherwise no model. |
+| `LLM_PROVIDER` | automatic | `openai`, `anthropic`, `sarvam`, `gemini`, `groq` or `openrouter`. Any other service that speaks the OpenAI chat format works as `openai` with `LLM_BASE_URL` and `LLM_MODEL`. If empty it is `openai` when `LLM_API_KEY` or `LLM_BASE_URL` is set, otherwise no model. |
 | `LLM_API_KEY` | empty | Your API key. For OpenAI, create one at platform.openai.com (a ChatGPT subscription does not include API access). Keep it only in the collector's environment. |
-| `LLM_BASE_URL` | OpenAI `https://api.openai.com/v1`; Anthropic `https://api.anthropic.com` | Point at OpenRouter, Ollama (`http://localhost:11434/v1`), LM Studio, vLLM or any compatible server. |
-| `LLM_MODEL` | OpenAI `gpt-4o-mini`; Anthropic `claude-haiku-4-5-20251001` | Model name. |
+| `LLM_BASE_URL` | Set by the provider: OpenAI `https://api.openai.com/v1`, Anthropic `https://api.anthropic.com`, Sarvam `https://api.sarvam.ai/v1`, Gemini `https://generativelanguage.googleapis.com/v1beta/openai`, Groq `https://api.groq.com/openai/v1`, OpenRouter `https://openrouter.ai/api/v1` | Point at OpenRouter, Ollama (`http://localhost:11434/v1`), LM Studio, vLLM or any compatible server. |
+| `LLM_MODEL` | OpenAI `gpt-4o-mini`; Anthropic `claude-haiku-4-5-20251001`; Sarvam `sarvam-105b`; Gemini `gemini-2.5-flash`; Groq `llama-3.3-70b-versatile`; OpenRouter `openai/gpt-4o-mini` | Model name. |
 
 With a model configured, each answerable question sends the question and up to four matching passages to the provider. Requests time out after 20 seconds and fall back to quoting your content. Replies are limited to about 300 tokens.
 
