@@ -42,3 +42,11 @@ Things has no telemetry and the server never contacts Rothenhall. Pages load fon
 ## Which browsers does Things support?
 
 Any modern browser with WebGL.
+
+## Can I use my own OpenAI key?
+
+Yes. Put your OpenAI API key in the collector's settings as LLM_API_KEY, with LLM_PROVIDER set to openai, and the character writes its answers with your key. The key stays on your server and is never sent to visitors' browsers. You can also point Things at Anthropic, Sarvam, Gemini, Groq, OpenRouter or any service that works like the OpenAI chat API, such as Ollama. Without a key the character still answers by quoting your own pages.
+
+## Who makes Things?
+
+Things is made by Rothenhall Partners, the team behind rothenhall.com, and published as open source under the MIT license at github.com/Rothenhall/Things.

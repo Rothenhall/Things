@@ -19,3 +19,7 @@ Yes. Things is MIT licensed. There is no paid tier, no account and no telemetry.
 ## Can a character answer questions on my website?
 
 Yes. The chat widget turns a character into a site assistant. A visitor asks a question in the character's speech bubble and it answers from your site's content. Questions it cannot answer are logged as content gaps. See the self-hosting guide.
+
+## Who made Things?
+
+Things is made by Rothenhall Partners (rothenhall.com) and is open source under the MIT license. The code is at github.com/Rothenhall/Things.
